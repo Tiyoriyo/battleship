@@ -1,6 +1,12 @@
 /* eslint-disable no-undef */
 const Ship = require('./ship');
 
+const hitDebug = (ship, num) => {
+  for (let i = 0; i < num; i += 1) {
+    ship.hit();
+  }
+};
+
 describe('Ship Constructor Tests', () => {
   const ship = Ship(5);
   test('Return object from Ship factory function', () => {
@@ -27,17 +33,13 @@ describe('Ship Constructor Tests', () => {
       expect(ship.hits).toBe(1);
     });
 
+    test('Battlefield sunk becomes true when the hit count reaches the length', () => {
+      hitDebug(ship, 5);
+      expect(ship.isSunk).toBeTruthy();
+    });
+
     test('Hit Count does not increase past the length of the ship', () => {
-      ship.hit();
-      ship.hit();
-      ship.hit();
-      ship.hit();
-      ship.hit();
-      ship.hit();
-      ship.hit();
-      ship.hit();
-      ship.hit();
-      ship.hit();
+      hitDebug(ship, 10);
       expect(ship.hits).toBe(5);
     });
   });

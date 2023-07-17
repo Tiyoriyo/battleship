@@ -6,8 +6,14 @@ const Ship = (length) => {
   return {
     length,
     hits: 0,
+    isSunk: false,
     hit() {
-      if (this.hits < this.length) { this.hits += 1; }
+      if (this.hits < this.length) {
+        this.hits += 1;
+        if (this.hits === this.length) {
+          this.isSunk = !this.isSunk;
+        }
+      }
     },
   };
 };
