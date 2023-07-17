@@ -14,23 +14,14 @@ const Game = () => {
     for (let i = 0; i < ship.length; i += 1) {
       if (curX > 9 || curX < 0 || curY > 9 || curY < 0) return false;
       switch (direction) {
-        case 'down':
-          curY += 1;
-          break;
-        case 'up':
-          curY -= 1;
-          break;
-        case 'left':
-          curX -= 1;
-          break;
-        case 'right':
-          curX += 1;
-          break;
-        default:
-          break;
+        case 'down': curY += 1; break;
+        case 'up': curY -= 1; break;
+        case 'left': curX -= 1; break;
+        case 'right': curX += 1; break;
+        default: break;
       }
     }
-    return board[curY][curX];
+    return true;
   }
 
   return {
@@ -41,20 +32,11 @@ const Game = () => {
       for (let i = 0; i < ship.length; i += 1) {
         this.board[curY][curX] = 'ship';
         switch (direction) {
-          case 'down':
-            curY += 1;
-            break;
-          case 'up':
-            curY -= 1;
-            break;
-          case 'left':
-            curX -= 1;
-            break;
-          case 'right':
-            curX += 1;
-            break;
-          default:
-            break;
+          case 'down': curY += 1; break;
+          case 'up': curY -= 1; break;
+          case 'left': curX -= 1; break;
+          case 'right': curX += 1; break;
+          default: break;
         }
       }
     },
