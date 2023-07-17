@@ -17,4 +17,9 @@ describe('Gameboard Tests', () => {
     expect(game.board[6][4]).toBe('ship');
     expect(game.board[7][4]).toBe('ship');
   });
+
+  test('If the entire ship does not fit, return error', () => {
+    const ship2 = Ship(5);
+    expect(game.placeShip(ship2, 4, 8, 'down')).toBe('Error');
+  });
 });
