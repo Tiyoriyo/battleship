@@ -11,10 +11,6 @@ const Game = () => {
     return board;
   }
 
-  function isSunk(ship) {
-    if (ship.length === ship.hits) return true; return false;
-  }
-
   function checkTrack(ship, x, y, direction, board) {
     let curX = x; let curY = y;
     for (let i = 0; i < ship.length; i += 1) {
@@ -49,4 +45,5 @@ const Game = () => {
   };
 };
 
-module.exports = Game;
+export default Game;
+// module.exports = Game;

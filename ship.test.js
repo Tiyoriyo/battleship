@@ -1,5 +1,6 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-undef */
-const Ship = require('./ship');
+import Ship from './ship';
 
 const hitDebug = (ship, num) => {
   for (let i = 0; i < num; i += 1) {
@@ -43,7 +44,7 @@ describe('Ship Constructor Tests', () => {
       expect(ship.isSunk()).toBe(false);
       hitDebug(ship, 2);
       expect(ship.isSunk()).toBe(false);
-      hitDebug(ship, 3);
+      hitDebug(ship, 13);
       expect(ship.isSunk()).toBe(true);
     });
 

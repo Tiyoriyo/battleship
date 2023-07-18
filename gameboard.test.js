@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
-const Game = require('./game');
-const Ship = require('./ship');
+// const Game = require('./game');
+import Game from './game';
+import Ship from './ship';
 
 describe('Gameboard Tests', () => {
   const game = Game();
@@ -10,8 +11,7 @@ describe('Gameboard Tests', () => {
   });
 
   test('Place ship at [x, y] coordinate', () => {
-    const ship1 = Ship(4);
-    game.placeShip(ship1, 4, 4, 'down');
+    game.placeShip(Ship(4), 4, 4, 'down');
     expect(game.board[4][4]).toBe('ship');
     expect(game.board[5][4]).toBe('ship');
     expect(game.board[6][4]).toBe('ship');
