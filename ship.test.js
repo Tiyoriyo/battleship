@@ -38,6 +38,16 @@ describe('Ship Constructor Tests', () => {
       expect(ship.isSunk).toBeTruthy();
     });
 
+    test('Ship indicates it has been sunk when length = hits', () => {
+      const ship = Ship(5);
+      expect(ship.sunkCheck()).toBe(false);
+      ship.hit();
+      ship.hit();
+      expect(ship.sunkCheck()).toBe(false);
+      hitDebug(ship, 3);
+      expect(ship.sunkCheck()).toBe(true);
+    });
+
     test('Hit Count does not increase past the length of the ship', () => {
       hitDebug(ship, 10);
       expect(ship.hits).toBe(5);

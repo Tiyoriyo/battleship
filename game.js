@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-vars */
 const Game = () => {
   function createBoard() {
     const board = [];
@@ -7,6 +9,10 @@ const Game = () => {
       board.push(row);
     }
     return board;
+  }
+
+  function isSunk(ship) {
+    if (ship.length === ship.hits) return true; return false;
   }
 
   function checkTrack(ship, x, y, direction, board) {

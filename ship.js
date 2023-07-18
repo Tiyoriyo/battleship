@@ -8,8 +8,14 @@ const Ship = (length) => {
     hit() {
       if (this.hits < this.length) {
         this.hits += 1;
-        if (this.hits === this.length) { this.isSunk = !this.isSunk; }
+        this.sunkCheck();
       }
+    },
+    sunkCheck() {
+      if (this.length === this.hits) {
+        this.isSunk = true;
+        return true;
+      } return false;
     },
   };
 };
