@@ -33,6 +33,7 @@ const Game = () => {
   }
 
   function attack(x, y) {
+    if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
     const square = this.board[y][x];
     if (square.status === 'hit') { return 'Error: Already Attacked'; }
     if (square.ship) {
