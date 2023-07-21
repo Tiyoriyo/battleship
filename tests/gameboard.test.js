@@ -65,6 +65,47 @@ describe('Gameboard Tests', () => {
       game.placeShip(ship1, 4, 4, 'right');
 
       expect(game.board[4][4].ship.length).toBe(4);
+      expect(game.board[4][5].ship.length).toBe(4);
+      expect(game.board[4][6].ship.length).toBe(4);
+      expect(game.board[4][7].ship.length).toBe(4);
+      expect(game.board[4][8].ship).toBe(undefined);
+    });
+
+    test('Attacking a square position will either return miss or hit', () => {
+      const game = Game();
+      const ship1 = Ship(4);
+      game.placeShip(ship1, 4, 4, 'right');
+
+      expect(game.attack(4, 5)).toBeTruthy;
+      expect(game.attack(4, 8)).toBeFalsy;
+    });
+
+    test('Square status reflects whether hit or missed', () => {
+      const game = Game();
+      const ship1 = Ship(4);
+      game.placeShip(ship1, 4, 4, 'right');
+      game.attack(4, 5);
+      game.attack(6, 4);
+
+      expect(game.board[5][4].status).toBe('miss');
+      expect(game.board[4][6].status).toBe('hit');
+    });
+
+    test('Attack functions coincides with ship hits & isSunk', () => {
+      const game = Game();
+      const ship1 = Ship(4);
+      game.placeShip(ship1, 4, 4, 'right');
+      game.attack(4, 4);
+      expect(game.board[4][5].ship.hits).toBe(1);
+      game.attack(5, 4);
+      expect(game.board[4][5].ship.hits).toBe(2);
+      expect(game.board[4][5].ship.sunk).toBeFalsy;
+      game.attack(6, 4);
+      expect(game.board[4][5].ship.hits).toBe(3);
+      expect(game.board[4][5].ship.sunk).toBeFalsy;
+      game.attack(7, 4);
+      expect(game.board[4][5].ship.hits).toBe(4);
+      expect(game.board[4][5].ship.sunk).toBeTruthy;
     });
   });
 });

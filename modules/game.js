@@ -32,6 +32,17 @@ const Game = () => {
     return true;
   }
 
+  function attack(x, y) {
+    const square = this.board[y][x];
+    if (square.ship) {
+      square.status = 'hit';
+      square.ship.hit();
+      return true;
+    }
+    square.status = 'miss';
+    return false;
+  }
+
   return {
     board: createBoard(),
     placeShip(ship, x, y, direction) {
@@ -48,6 +59,7 @@ const Game = () => {
         }
       }
     },
+    attack,
   };
 };
 
