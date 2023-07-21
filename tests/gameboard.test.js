@@ -115,5 +115,10 @@ describe('Gameboard Tests', () => {
       game.attack(4, 4);
       expect(game.attack(4, 4)).toBe('Error: Already Attacked');
     });
+
+    test('attack', () => {
+      const game = Game();
+      expect(game.attack(11, 12)).toBe('Error: Attack is not within bounds');
+    });
   });
 });
