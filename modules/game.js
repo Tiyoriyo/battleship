@@ -38,7 +38,7 @@ const Game = () => {
       let curX = x; let curY = y;
       if (!checkTrack(ship, x, y, direction, this.board)) return 'Error';
       for (let i = 0; i < ship.length; i += 1) {
-        this.board[curY][curX].ship = `ship${ship.length}`;
+        this.board[curY][curX].ship = ship;
         switch (direction) {
           case 'down': curY += 1; break;
           case 'up': curY -= 1; break;

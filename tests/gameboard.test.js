@@ -12,10 +12,10 @@ describe('Gameboard Tests', () => {
   test('Place ship at [x, y] coordinate', () => {
     const game = Game();
     game.placeShip(Ship(4), 4, 4, 'down');
-    expect(game.board[4][4].ship
-      && game.board[5][4].ship
-      && game.board[6][4].ship
-      && game.board[7][4].ship).toBe('ship4');
+    expect(game.board[4][4].ship.length
+      && game.board[5][4].ship.length
+      && game.board[6][4].ship.length
+      && game.board[7][4].ship.length).toBe(4);
   });
 
   test('If the entire ship does not fit, return error', () => {
@@ -56,5 +56,15 @@ describe('Gameboard Tests', () => {
     const ship2 = Ship(2);
     game.placeShip(ship1, 4, 4, 'right');
     expect(game.placeShip(ship2, 6, 2, 'down')).not.toBe('Error');
+  });
+
+  describe('Gameboard and ship object integration', () => {
+    test('Set the ship property of square to placed ship', () => {
+      const game = Game();
+      const ship1 = Ship(4);
+      game.placeShip(ship1, 4, 4, 'right');
+
+      expect(game.board[4][4].ship.length).toBe(4);
+    });
   });
 });
