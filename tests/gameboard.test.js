@@ -116,7 +116,7 @@ describe('Gameboard Tests', () => {
       expect(game.attack(4, 4)).toBe('Error: Already Attacked');
     });
 
-    test('attack', () => {
+    test('attack outside board bounds returns error', () => {
       const game = Game();
       expect(game.attack(11, 12)).toBe('Error: Attack is not within bounds');
     });
