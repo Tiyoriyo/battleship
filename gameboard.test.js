@@ -12,10 +12,10 @@ describe('Gameboard Tests', () => {
 
   test('Place ship at [x, y] coordinate', () => {
     game.placeShip(Ship(4), 4, 4, 'down');
-    expect(game.board[4][4]).toBe('ship');
-    expect(game.board[5][4]).toBe('ship');
-    expect(game.board[6][4]).toBe('ship');
-    expect(game.board[7][4]).toBe('ship');
+    expect(game.board[4][4].ship).toBe('ship4');
+    expect(game.board[5][4].ship).toBe('ship4');
+    expect(game.board[6][4].ship).toBe('ship4');
+    expect(game.board[7][4].ship).toBe('ship4');
   });
 
   test('If the entire ship does not fit, return error', () => {
@@ -37,5 +37,13 @@ describe('Gameboard Tests', () => {
     expect(game.placeShip(ship5, 6, 5, 'up')).not.toBe('Error');
     expect(game.placeShip(ship6, 4, 7, 'down')).toBe('Error');
     expect(game.placeShip(ship6, 7, 4, 'down')).not.toBe('Error');
+  });
+
+  test(('Return error if player tries to place ship over another'), () => {
+    const ship7 = Ship(4);
+    const ship8 = Ship(4);
+    game.placeShip(ship7, 4, 4, 'right');
+    expect(game.placeShip(ship8, 6, 3, 'down')).toBe('Error');
+    expect(game.placeShip(Ship(4), 5, 5, 'down')).not.toBe('Error');
   });
 });

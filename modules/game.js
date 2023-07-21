@@ -20,7 +20,7 @@ const Game = () => {
     let curX = x; let curY = y;
     for (let i = 0; i < ship.length; i += 1) {
       if (curX > 9 || curX < 0 || curY > 9 || curY < 0) return false;
-      if (board[curY][curX].ship) return false;
+      if (board[curY][curX].ship !== undefined) return false;
       switch (direction) {
         case 'down': curY += 1; break;
         case 'up': curY -= 1; break;
