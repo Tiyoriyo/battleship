@@ -107,5 +107,13 @@ describe('Gameboard Tests', () => {
       expect(game.board[4][5].ship.hits).toBe(4);
       expect(game.board[4][5].ship.sunk).toBeTruthy;
     });
+
+    test('attack does not work if the square has already been attacked', () => {
+      const game = Game();
+      const ship1 = Ship(4);
+      game.placeShip(ship1, 4, 4, 'right');
+      game.attack(4, 4);
+      expect(game.attack(4, 4)).toBe('Error: Already Attacked');
+    });
   });
 });
