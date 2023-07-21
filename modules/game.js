@@ -34,6 +34,7 @@ const Game = () => {
 
   function attack(x, y) {
     const square = this.board[y][x];
+    if (square.status === 'hit') { return 'Error: Already Attacked'; }
     if (square.ship) {
       square.status = 'hit';
       square.ship.hit();
