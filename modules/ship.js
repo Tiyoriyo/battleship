@@ -1,7 +1,7 @@
 const Ship = (length) => {
   if (length < 1 || length > 5) { return 'Length Error'; }
 
-  function hit() {
+  function damage() {
     if (this.hits < this.length) {
       this.hits += 1;
       this.isSunk();
@@ -19,7 +19,7 @@ const Ship = (length) => {
     length,
     hits: 0,
     sunk: false,
-    hit,
+    damage,
     isSunk,
   };
 };

@@ -38,7 +38,7 @@ const Game = () => {
     if (square.status) { return 'Error: Already Attacked'; }
     if (square.ship) {
       square.status = 'hit';
-      square.ship.hit();
+      square.ship.damage();
       return true;
     }
     square.status = 'miss';
