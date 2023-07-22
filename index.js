@@ -1,13 +1,13 @@
 const mainboard = document.querySelector('.mainboard');
 
 for (let i = 0; i < 10; i += 1) {
-  const row = document.createElement('div');
-  row.classList.add('row');
+  const column = document.createElement('div');
+  column.classList.add('column');
   for (let j = 0; j < 10; j += 1) {
     const square = document.createElement('div');
     square.classList.add('square');
-    square.textContent = `${j}, ${i}`;
-    row.append(square);
+    square.textContent = `${i}, ${j}`;
+    column.append(square);
   }
-  mainboard.appendChild(row);
+  mainboard.appendChild(column);
 }
