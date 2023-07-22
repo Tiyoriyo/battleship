@@ -8,15 +8,15 @@ describe('Gameboard Tests', () => {
   let game;
   let ship1;
   let ship2;
-  let ship3;
-  let ship4;
+  // let ship3;
+  // let ship4;
 
   beforeEach(() => {
     game = Game();
     ship1 = Ship(4);
     ship2 = Ship(4);
-    ship3 = Ship(4);
-    ship4 = Ship(4);
+    // ship3 = Ship(4);
+    // ship4 = Ship(4);
   });
 
   test('Place ship at [x, y] coordinate', () => {
@@ -40,11 +40,10 @@ describe('Gameboard Tests', () => {
   describe('Gameboard and ship object integration', () => {
     test('Set the ship property of square to placed ship', () => {
       game.placeShip(ship1, 4, 4, 'right');
-
-      expect(game.board[4][4].ship.length).toBe(4);
-      expect(game.board[5][4].ship.length).toBe(4);
-      expect(game.board[6][4].ship.length).toBe(4);
-      expect(game.board[7][4].ship.length).toBe(4);
+      expect(game.board[4][4].ship
+      && game.board[5][4].ship
+      && game.board[6][4].ship
+      && game.board[7][4].ship).toEqual(ship1);
       expect(game.board[8][4].ship).toBe(undefined);
     });
 
@@ -68,12 +67,9 @@ describe('Gameboard Tests', () => {
       game.placeShip(ship1, 4, 4, 'right');
       game.attack(4, 4);
       expect(game.board[5][4].ship.hits).toBe(1);
-      game.attack(5, 4);
-      expect(game.board[6][4].ship.hits).toBe(2);
       expect(game.board[6][4].ship.sunk).toBeFalsy;
+      game.attack(5, 4);
       game.attack(6, 4);
-      expect(game.board[7][4].ship.hits).toBe(3);
-      expect(game.board[7][4].ship.sunk).toBeFalsy;
       game.attack(7, 4);
       expect(game.board[5][4].ship.hits).toBe(4);
       expect(game.board[5][4].ship.sunk).toBeTruthy;

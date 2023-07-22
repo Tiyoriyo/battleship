@@ -3,7 +3,7 @@
 import Ship from '../modules/ship';
 
 const hitDebug = (ship, num) => {
-  for (let i = 0; i < num; i += 1) { ship.hit(); }
+  for (let i = 0; i < num; i += 1) { ship.damage(); }
 };
 
 describe('Ship Constructor Tests', () => {
@@ -29,7 +29,7 @@ describe('Ship Constructor Tests', () => {
   describe('Ship Hit Mechanics', () => {
     test('Hit Count increases when ship is hit', () => {
       const ship = Ship(5);
-      ship.hit();
+      ship.damage();
       expect(ship.hits).toBe(1);
     });
 
