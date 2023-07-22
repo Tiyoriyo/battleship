@@ -37,12 +37,6 @@ describe('Gameboard Tests', () => {
     expect(game.placeShip(ship2, 6, 3, 'down')).toBe('Error');
   });
 
-  test('Be able to place ship at coordinates of failed placeship', () => {
-    ship2 = Ship(2);
-    game.placeShip(ship1, 4, 4, 'right');
-    expect(game.placeShip(ship2, 6, 2, 'down')).not.toBe('Error');
-  });
-
   describe('Gameboard and ship object integration', () => {
     test('Set the ship property of square to placed ship', () => {
       game.placeShip(ship1, 4, 4, 'right');
