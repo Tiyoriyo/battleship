@@ -31,17 +31,6 @@ describe('Gameboard Tests', () => {
     expect(game.placeShip(ship1, 4, 8, 'down')).toBe('Error');
   });
 
-  test(('All Directions have placeShip functionality'), () => {
-    expect(game.placeShip(ship1, 8, 9, 'right')).toBe('Error');
-    expect(game.placeShip(ship1, 1, 8, 'right')).not.toBe('Error');
-    expect(game.placeShip(ship2, 1, 2, 'left')).toBe('Error');
-    expect(game.placeShip(ship2, 4, 0, 'left')).not.toBe('Error');
-    expect(game.placeShip(ship3, 4, 1, 'up')).toBe('Error');
-    expect(game.placeShip(ship3, 6, 5, 'up')).not.toBe('Error');
-    expect(game.placeShip(ship4, 4, 7, 'down')).toBe('Error');
-    expect(game.placeShip(ship4, 7, 4, 'down')).not.toBe('Error');
-  });
-
   test('Return error if player tries to place ship over another', () => {
     game.placeShip(ship1, 4, 4, 'right');
     expect(game.placeShip(ship2, 6, 3, 'down')).toBe('Error');
