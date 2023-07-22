@@ -4,14 +4,14 @@ const Game = () => {
   function createBoard() {
     const board = [];
     for (let i = 0; i < 10; i += 1) {
-      const row = [];
+      const column = [];
       for (let j = 0; j < 10; j += 1) {
-        row[j] = {
+        column[j] = {
           ship: undefined,
           status: null,
         };
       }
-      board.push(row);
+      board.push(column);
     }
     return board;
   }
@@ -20,7 +20,7 @@ const Game = () => {
     let curX = x; let curY = y;
     for (let i = 0; i < ship.length; i += 1) {
       if (curX > 9 || curX < 0 || curY > 9 || curY < 0) return false;
-      if (board[curY][curX].ship !== undefined) return false;
+      if (board[curX][curY].ship !== undefined) return false;
       switch (direction) {
         case 'down': curY += 1; break;
         case 'up': curY -= 1; break;
@@ -34,7 +34,7 @@ const Game = () => {
 
   function attack(x, y) {
     if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
-    const square = this.board[y][x];
+    const square = this.board[x][y];
     if (square.status) { return 'Error: Already Attacked'; }
     if (square.ship) {
       square.status = 'hit';
@@ -51,7 +51,7 @@ const Game = () => {
       let curX = x; let curY = y;
       if (!checkTrack(ship, x, y, direction, this.board)) return 'Error';
       for (let i = 0; i < ship.length; i += 1) {
-        this.board[curY][curX].ship = ship;
+        this.board[curX][curY].ship = ship;
         switch (direction) {
           case 'down': curY += 1; break;
           case 'up': curY -= 1; break;
