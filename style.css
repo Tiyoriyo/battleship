@@ -1,13 +1,13 @@
 .mainboard {
     display: flex;
-    flex-direction: column;
     width: 350px;
     height: 350px;
     border: 1px solid rgb(176, 176, 176);
 }
 
-.row {
+.column {
     display: flex;
+    flex-direction: column;
     flex: auto;
 }
 
