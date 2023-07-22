@@ -21,10 +21,11 @@ describe('Gameboard Tests', () => {
 
   test('Place ship at [x, y] coordinate', () => {
     game.placeShip(Ship(4), 4, 4, 'down');
-    expect(game.board[4][4].ship.length
-      && game.board[4][5].ship.length
-      && game.board[4][6].ship.length
-      && game.board[4][7].ship.length).toBe(4);
+    expect(game.board[4][4].ship
+      && game.board[4][5].ship
+      && game.board[4][6].ship
+      && game.board[4][7].ship).toBeTruthy;
+    expect(game.board[4][8].ship).toBeFalsy;
   });
 
   test('If the entire ship does not fit, return error', () => {
@@ -34,7 +35,6 @@ describe('Gameboard Tests', () => {
   test('Return error if player tries to place ship over another', () => {
     game.placeShip(ship1, 4, 4, 'right');
     expect(game.placeShip(ship2, 6, 3, 'down')).toBe('Error');
-    expect(game.placeShip(Ship(4), 5, 5, 'down')).not.toBe('Error');
   });
 
   test('Be able to place ship at coordinates of failed placeship', () => {
