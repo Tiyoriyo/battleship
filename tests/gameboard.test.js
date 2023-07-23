@@ -93,5 +93,11 @@ describe('Gameboard Tests', () => {
 
       expect(game.player.activeShips).toEqual([ship2, ship3]);
     });
+
+    test('Attempting to place unavailable ships will return an error', () => {
+      game.player.shipArsenal = ['carrier'];
+      expect(game.placeShip(Ship(5), 4, 4, 'right')).toBe(true);
+      expect(game.placeShip(Ship(2), 3, 6, 'right')).toBe('Error: Ship is not available');
+    });
   });
 });
