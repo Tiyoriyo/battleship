@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 // const Game = require('./game');
@@ -8,14 +9,14 @@ describe('Gameboard Tests', () => {
   let game;
   let ship1;
   let ship2;
-  // let ship3;
+  let ship3;
   // let ship4;
 
   beforeEach(() => {
     game = Game();
     ship1 = Ship(4);
     ship2 = Ship(4);
-    // ship3 = Ship(4);
+    ship3 = Ship(4);
     // ship4 = Ship(4);
   });
 
@@ -79,6 +80,18 @@ describe('Gameboard Tests', () => {
 
     test('attack outside board bounds returns error', () => {
       expect(game.attack(11, 12)).toBe('Error: Attack is not within bounds');
+    });
+  });
+
+  describe('Game Controller tests', () => {
+    test('Removes sunk ship frm player tracker', () => {
+      const ship1 = Ship(1);
+      game.placeShip(ship1, 4, 4, 'right');
+      game.placeShip(ship2, 4, 7, 'right');
+      game.placeShip(ship3, 4, 8, 'right');
+      game.attack(4, 4);
+
+      expect(game.player.activeShips).toEqual([ship2, ship3]);
     });
   });
 });
