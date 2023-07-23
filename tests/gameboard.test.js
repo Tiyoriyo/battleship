@@ -49,6 +49,15 @@ describe('Gameboard Tests', () => {
       expect(game.board[8][4].ship).toBe(undefined);
     });
 
+    test('Square status reflects whether hit or missed', () => {
+      game.placeShip(ship1, 4, 4, 'right');
+      game.attack(4, 5);
+      game.attack(6, 4);
+
+      expect(game.board[4][5].status).toBe('miss');
+      expect(game.board[6][4].status).toBe('hit');
+    });
+
     test('Attack functions coincides with ship hits & isSunk', () => {
       game.placeShip(ship1, 4, 4, 'right');
       game.attack(4, 4);
