@@ -19,13 +19,13 @@ describe('Gameboard Tests', () => {
     // ship4 = Ship(4);
   });
 
-  describe('Placeship function tests', () => {
+  describe('Placeship Tests', () => {
     test('Place ship at [x, y] coordinate', () => {
       game.placeShip(Ship(4), 4, 4, 'down');
       expect(game.board[4][4].ship
-        && game.board[4][5].ship
-        && game.board[4][6].ship
-        && game.board[4][7].ship).toBeTruthy;
+          && game.board[4][5].ship
+          && game.board[4][6].ship
+          && game.board[4][7].ship).toBeTruthy;
       expect(game.board[4][8].ship).toBeFalsy;
     });
 
@@ -39,16 +39,15 @@ describe('Gameboard Tests', () => {
     });
   });
 
-  describe('Gameboard and ship object integration', () => {
+  describe('Board Square Test', () => {
     test('Set the ship property of square to placed ship', () => {
       game.placeShip(ship1, 4, 4, 'right');
       expect(game.board[4][4].ship
-      && game.board[5][4].ship
-      && game.board[6][4].ship
-      && game.board[7][4].ship).toEqual(ship1);
+        && game.board[5][4].ship
+        && game.board[6][4].ship
+        && game.board[7][4].ship).toEqual(ship1);
       expect(game.board[8][4].ship).toBe(undefined);
     });
-
     test('Square status reflects whether hit or missed', () => {
       game.placeShip(ship1, 4, 4, 'right');
       game.attack(4, 5);
@@ -57,7 +56,9 @@ describe('Gameboard Tests', () => {
       expect(game.board[4][5].status).toBe('miss');
       expect(game.board[6][4].status).toBe('hit');
     });
+  });
 
+  describe('Attack function tests', () => {
     test('Attack functions coincides with ship hits & isSunk', () => {
       game.placeShip(ship1, 4, 4, 'right');
       game.attack(4, 4);
