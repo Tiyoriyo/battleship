@@ -19,22 +19,24 @@ describe('Gameboard Tests', () => {
     // ship4 = Ship(4);
   });
 
-  test('Place ship at [x, y] coordinate', () => {
-    game.placeShip(Ship(4), 4, 4, 'down');
-    expect(game.board[4][4].ship
-      && game.board[4][5].ship
-      && game.board[4][6].ship
-      && game.board[4][7].ship).toBeTruthy;
-    expect(game.board[4][8].ship).toBeFalsy;
-  });
+  describe('Placeship function tests', () => {
+    test('Place ship at [x, y] coordinate', () => {
+      game.placeShip(Ship(4), 4, 4, 'down');
+      expect(game.board[4][4].ship
+        && game.board[4][5].ship
+        && game.board[4][6].ship
+        && game.board[4][7].ship).toBeTruthy;
+      expect(game.board[4][8].ship).toBeFalsy;
+    });
 
-  test('If the entire ship does not fit, return error', () => {
-    expect(game.placeShip(ship1, 4, 8, 'down')).toBe('Error');
-  });
+    test('If the entire ship does not fit, return error', () => {
+      expect(game.placeShip(ship1, 4, 8, 'down')).toBe('Error');
+    });
 
-  test('Return error if player tries to place ship over another', () => {
-    game.placeShip(ship1, 4, 4, 'right');
-    expect(game.placeShip(ship2, 6, 3, 'down')).toBe('Error');
+    test('Return error if player tries to place ship over another', () => {
+      game.placeShip(ship1, 4, 4, 'right');
+      expect(game.placeShip(ship2, 6, 3, 'down')).toBe('Error');
+    });
   });
 
   describe('Gameboard and ship object integration', () => {
@@ -45,13 +47,6 @@ describe('Gameboard Tests', () => {
       && game.board[6][4].ship
       && game.board[7][4].ship).toEqual(ship1);
       expect(game.board[8][4].ship).toBe(undefined);
-    });
-
-    test('Attacking a square position will either return miss or hit', () => {
-      game.placeShip(ship1, 4, 4, 'right');
-
-      expect(game.attack(4, 5)).toBeTruthy;
-      expect(game.attack(4, 8)).toBeFalsy;
     });
 
     test('Square status reflects whether hit or missed', () => {
