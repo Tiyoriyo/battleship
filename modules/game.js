@@ -72,6 +72,7 @@ const Game = () => {
         default: break;
       }
     }
+    return true;
   }
 
   function attack(x, y) {
