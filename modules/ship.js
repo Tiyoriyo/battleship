@@ -1,6 +1,16 @@
 const Ship = (length) => {
   if (length < 1 || length > 5) { return 'Length Error'; }
 
+  function getShipType(num) {
+    switch (num) {
+      case 5: return 'carrier';
+      case 4: return 'battleship';
+      case 3: return 'destroyer';
+      case 2: return 'patrol';
+      default: break;
+    }
+  }
+
   function damage() {
     if (this.hits < this.length) {
       this.hits += 1;
@@ -16,6 +26,7 @@ const Ship = (length) => {
   }
 
   return {
+    name: getShipType(length),
     length,
     hits: 0,
     sunk: false,
