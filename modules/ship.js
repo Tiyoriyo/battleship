@@ -1,6 +1,7 @@
 const Ship = (length) => {
   if (length < 1 || length > 5) { return 'Length Error'; }
 
+  // eslint-disable-next-line consistent-return
   function getShipType(num) {
     switch (num) {
       case 5: return 'carrier';
