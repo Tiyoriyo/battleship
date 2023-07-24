@@ -1,4 +1,5 @@
-const Player = () => ({
+const Player = (name) => ({
+  name,
   activeShips: [],
   sunkShips: [],
   shipArsenal: ['carrier', 'battleship', 'battleship',
