@@ -99,5 +99,12 @@ describe('Gameboard Tests', () => {
       expect(game.placeShip(Ship(5), 4, 4, 'right')).toBe(true);
       expect(game.placeShip(Ship(2), 3, 6, 'right')).toBe('Error: Ship is not available');
     });
+
+    test('Sunk ship is added to sunkShip player array', () => {
+      game.placeShip(Ship(2), 4, 4, 'right');
+      game.attack(4, 4);
+      game.attack(5, 4);
+      expect(game.player.sunkShips).toEqual(['patrol']);
+    });
   });
 });
