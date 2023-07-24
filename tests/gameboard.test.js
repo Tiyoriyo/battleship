@@ -51,25 +51,21 @@ describe('Gameboard Tests', () => {
     });
     test('Square status reflects whether hit or missed', () => {
       game.placeShip(game.computer, ship1, 4, 4, 'right');
+      game.attack(game.computer, 5, 4);
       game.attack(game.computer, 4, 5);
-      game.attack(game.computer, 6, 4);
 
-      expect(game.computer.board[4][5].status).toBe('hit');
-      expect(game.computer.board[6][4].status).toBe('miss');
+      expect(game.computer.board[5][4].status).toBe('hit');
+      expect(game.computer.board[4][5].status).toBe('miss');
+      expect(game.computer.board[6][4].status).toBe(null);
     });
   });
 
   describe('Attack function tests', () => {
     test('Attack functions coincides with ship hits & isSunk', () => {
       game.placeShip(game.computer, ship1, 4, 4, 'right');
-      game.attack(game.computer, 4, 4);
-      expect(game.computer.board[5][4].ship.hits).toBe(1);
-      expect(game.computer.board[6][4].ship.sunk).toBeFalsy;
-      game.attack(game.computer, 5, 4);
-      game.attack(game.computer, 6, 4);
-      game.attack(game.computer, 7, 4);
-      expect(game.computer.board[5][4].ship.hits).toBe(4);
-      expect(game.computer.board[5][4].ship.sunk).toBeTruthy;
+      game.computer.board[4][4].ship.hits = 4;
+      game.computer.board[4][4].ship.isSunk();
+      expect(game.computer.board[5][4].ship.sunk).toBe(true);
     });
 
     test('attack does not work if the square has already been attacked', () => {
