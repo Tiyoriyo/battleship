@@ -54,6 +54,7 @@ const Game = () => {
 
   function activateShip(player, ship) {
     const index = player.shipArsenal.indexOf(getShipType(ship.length));
+    player.shipArsenal.splice(index, 1);
     player.activeShips.push(ship);
   }
 
@@ -61,7 +62,6 @@ const Game = () => {
     let curX = x; let curY = y;
     if (!checkTrack(ship, x, y, direction, this.board)) return 'Error';
     if (!checkShipAvailability(this.player, ship.length)) return 'Error: Ship is not available';
-    activateShip(this.player, ship);
     for (let i = 0; i < ship.length; i += 1) {
       this.board[curX][curY].ship = ship;
       switch (direction) {
@@ -71,8 +71,16 @@ const Game = () => {
         case 'right': curX += 1; break;
         default: break;
       }
-    }
+    } activateShip(this.player, ship);
     return true;
+  }
+
+  function checkSunkStatus(player, ship) {
+    if (ship.isSunk() === true) {
+      const shipIndex = player.activeShips.indexOf(ship.name);
+      player.activeShips.splice(shipIndex, 1);
+      player.sunkShips.push(ship.name);
+    }
   }
 
   function attack(x, y) {
@@ -82,6 +90,7 @@ const Game = () => {
     if (square.ship) {
       square.status = 'hit';
       square.ship.damage();
+      checkSunkStatus(this.player, square.ship);
       return true;
     }
     square.status = 'miss';
