@@ -90,8 +90,8 @@ const Game = () => {
 
   function attack(player, x, y) {
     if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
+    if (player.board[x][y].status) { return 'Error: Already Attacked'; }
     const square = player.board[x][y];
-    if (square.status) { return 'Error: Already Attacked'; }
     if (square.ship) {
       square.status = 'hit';
       square.ship.damage();
