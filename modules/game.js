@@ -6,21 +6,6 @@ import Ship from './ship.js';
 
 /* eslint-disable no-unused-vars */
 const Game = () => {
-  function createBoard() {
-    const board = [];
-    for (let i = 0; i < 10; i += 1) {
-      const column = [];
-      for (let j = 0; j < 10; j += 1) {
-        column[j] = {
-          ship: undefined,
-          status: null,
-        };
-      }
-      board.push(column);
-    }
-    return board;
-  }
-
   function getShipType(num) {
     switch (num) {
       case 5: return 'carrier';
@@ -70,11 +55,18 @@ const Game = () => {
     player.activeShips.push(ship);
   }
 
+  function checkErrors(player, ship, x, y, direction) {
+    const truecheck1 = checkTrack(ship, x, y, direction, player.board);
+    const truecheck2 = checkShipAvailability(player, ship.length);
+
+    if (truecheck1 === false || truecheck2 === false) return true;
+  }
+
   function placeShip(player, ship, x, y, direction) {
-    let curX = x; let curY = y;
-    const board = (player.name === 'player') ? this.playerBoard : this.enemyBoard;
-    if (!checkTrack(ship, x, y, direction, board)) return 'Error';
-    if (!checkShipAvailability(player, ship.length)) return 'Error: Ship is not available';
+    if (checkErrors(player, ship, x, y, direction)) return 'Error';
+    let curX = x;
+    let curY = y;
+    const { board } = player;
     for (let i = 0; i < ship.length; i += 1) {
       board[curX][curY].ship = ship;
       switch (direction) {
@@ -96,9 +88,9 @@ const Game = () => {
     }
   }
 
-  function attack(player, board, x, y) {
+  function attack(player, x, y) {
     if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
-    const square = board[x][y];
+    const square = player.board[x][y];
     if (square.status) { return 'Error: Already Attacked'; }
     if (square.ship) {
       square.status = 'hit';
@@ -123,8 +115,6 @@ const Game = () => {
   // }
 
   return {
-    playerBoard: createBoard(),
-    enemyBoard: createBoard(),
     player: Player('player'),
     computer: Player('computer'),
     placeShip,
