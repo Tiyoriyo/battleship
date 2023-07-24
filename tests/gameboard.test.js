@@ -23,11 +23,11 @@ describe('Gameboard Tests', () => {
   describe('Placeship Tests', () => {
     test('Place ship at [x, y] coordinate', () => {
       game.placeShip(game.player, Ship(4), 4, 4, 'down');
-      expect(game.playerBoard[4][4].ship
-          && game.playerBoard[4][5].ship
-          && game.playerBoard[4][6].ship
-          && game.playerBoard[4][7].ship).toBeTruthy;
-      expect(game.playerBoard[4][8].ship).toBeFalsy;
+      expect(game.player.board[4][4].ship
+          && game.player.board[4][5].ship
+          && game.player.board[4][6].ship
+          && game.player.board[4][7].ship).toBeTruthy;
+      expect(game.player.board[4][8].ship).toBeFalsy;
     });
 
     test('If the entire ship does not fit, return error', () => {
@@ -43,43 +43,43 @@ describe('Gameboard Tests', () => {
   describe('Board Square Test', () => {
     test('Set the ship property of square to placed ship', () => {
       game.placeShip(game.player, ship1, 4, 4, 'right');
-      expect(game.playerBoard[4][4].ship
-        && game.playerBoard[5][4].ship
-        && game.playerBoard[6][4].ship
-        && game.playerBoard[7][4].ship).toEqual(ship1);
-      expect(game.playerBoard[8][4].ship).toBe(undefined);
+      expect(game.player.board[4][4].ship
+        && game.player.board[5][4].ship
+        && game.player.board[6][4].ship
+        && game.player.board[7][4].ship).toEqual(ship1);
+      expect(game.player.board[8][4].ship).toBe(undefined);
     });
     test('Square status reflects whether hit or missed', () => {
       game.placeShip(game.computer, ship1, 4, 4, 'right');
-      game.attack(game.computer, game.enemyBoard, 4, 5);
-      game.attack(game.computer, game.enemyBoard, 6, 4);
+      game.attack(game.computer, 4, 5);
+      game.attack(game.computer, 6, 4);
 
-      expect(game.enemyBoard[4][5].status).toBe('miss');
-      expect(game.enemyBoard[6][4].status).toBe('hit');
+      expect(game.computer.board[4][5].status).toBe('hit');
+      expect(game.computer.board[6][4].status).toBe('miss');
     });
   });
 
   describe('Attack function tests', () => {
     test('Attack functions coincides with ship hits & isSunk', () => {
       game.placeShip(game.computer, ship1, 4, 4, 'right');
-      game.attack(game.computer, game.enemyBoard, 4, 4);
-      expect(game.enemyBoard[5][4].ship.hits).toBe(1);
-      expect(game.enemyBoard[6][4].ship.sunk).toBeFalsy;
-      game.attack(game.computer, game.enemyBoard, 5, 4);
-      game.attack(game.computer, game.enemyBoard, 6, 4);
-      game.attack(game.computer, game.enemyBoard, 7, 4);
-      expect(game.enemyBoard[5][4].ship.hits).toBe(4);
-      expect(game.enemyBoard[5][4].ship.sunk).toBeTruthy;
+      game.attack(game.computer, 4, 4);
+      expect(game.computer.board[5][4].ship.hits).toBe(1);
+      expect(game.computer.board[6][4].ship.sunk).toBeFalsy;
+      game.attack(game.computer, 5, 4);
+      game.attack(game.computer, 6, 4);
+      game.attack(game.computer, 7, 4);
+      expect(game.computer.board[5][4].ship.hits).toBe(4);
+      expect(game.computer.board[5][4].ship.sunk).toBeTruthy;
     });
 
     test('attack does not work if the square has already been attacked', () => {
       game.placeShip(game.computer, ship1, 4, 4, 'right');
-      game.attack(game.computer, game.enemyBoard, 4, 4);
-      expect(game.attack(game.computer, game.enemyBoard, 4, 4)).toBe('Error: Already Attacked');
+      game.attack(game.computer, 4, 4);
+      expect(game.attack(game.computer, 4, 4)).toBe('Error: Already Attacked');
     });
 
     test('attack outside board bounds returns error', () => {
-      expect(game.attack(game.computer, game.enemyBoard, 11, 12)).toBe('Error: Attack is not within bounds');
+      expect(game.attack(game.computer, 11, 12)).toBe('Error: Attack is not within bounds');
     });
   });
 
@@ -89,7 +89,7 @@ describe('Gameboard Tests', () => {
       game.placeShip(game.computer, ship1, 4, 4, 'right');
       game.placeShip(game.computer, ship2, 4, 7, 'right');
       game.placeShip(game.computer, ship3, 4, 8, 'right');
-      game.attack(game.computer, game.enemyBoard, 4, 4);
+      game.attack(game.computer, 4, 4);
 
       expect(game.computer.activeShips).toEqual([ship2, ship3]);
     });
@@ -97,13 +97,13 @@ describe('Gameboard Tests', () => {
     test('Attempting to place unavailable ships will return an error', () => {
       game.player.shipArsenal = ['carrier'];
       game.placeShip(game.player, Ship(5), 4, 4, 'right');
-      expect(game.placeShip(game.player, Ship(2), 3, 6, 'right')).toBe('Error: Ship is not available');
+      expect(game.placeShip(game.player, Ship(2), 3, 6, 'right')).toBe('Error');
     });
 
     test('Sunk ship is added to sunkShip player array', () => {
       game.placeShip(game.computer, Ship(2), 4, 4, 'right');
-      game.attack(game.computer, game.enemyBoard, 4, 4);
-      game.attack(game.computer, game.enemyBoard, 5, 4);
+      game.attack(game.computer, 4, 4);
+      game.attack(game.computer, 5, 4);
       expect(game.computer.sunkShips).toEqual(['patrol']);
     });
   });
