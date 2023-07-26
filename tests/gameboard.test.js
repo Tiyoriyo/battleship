@@ -105,10 +105,17 @@ describe('Gameboard Tests', () => {
   });
 
   describe('Computer Tests', () => {
-    // test('Computer places all moves successfully', () => {
-    //   game.computerSetup();
-    //   expect(game.computer.activeShips.length).toEqual(10);
-    //   expect(game.computer.shipArsenal).toEqual([]);
-    // });
+    test('Computer places all moves successfully', () => {
+      game.computerSetup();
+      expect(game.computer.activeShips.length).toEqual(10);
+      expect(game.computer.shipArsenal).toEqual([]);
+    });
+
+    test('Computer Attacks Player', () => {
+      game.placeShip(game.player, Ship(3), 4, 4, 'right');
+      game.computerAttack();
+      game.computerAttack();
+      expect(game.getFreeSquares(game.player)).toBe(98);
+    });
   });
 });
