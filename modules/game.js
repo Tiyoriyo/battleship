@@ -130,7 +130,6 @@ const Game = () => {
   function computerAttack() {
     const x = Math.floor(Math.random() * 10);
     const y = Math.floor(Math.random() * 10);
-
     if (this.player.board[x][y].status) { return computerAttack(); }
     attack(this.player, x, y);
   }
