@@ -118,14 +118,13 @@ const Game = () => {
   }
 
   function getFreeSquares(player) {
-    let total = 0;
     const { board } = player;
+    let total = 0;
     for (let i = 0; i < board.length; i += 1) {
       for (let j = 0; j < board[i].length; j += 1) {
         if (!board[i][j].status) total += 1;
       }
-    }
-    return total;
+    } return total;
   }
 
   function computerAttack() {
