@@ -87,9 +87,9 @@ describe('Gameboard Tests', () => {
       game.placeShip(game.computer, ship3, 4, 9, 'right');
       expect(game.computer.activeShips).toEqual(['destroyer', 'battleship', 'battleship']);
 
-      // game.attack(game.computer, 4, 4);
-      // game.attack(game.computer, 5, 4);
-      // expect(game.computer.activeShips).toEqual([ship2.name, ship3.name]);
+      game.attack(game.computer, 4, 4);
+      game.attack(game.computer, 5, 4);
+      expect(game.computer.activeShips).toEqual([ship2.name, ship3.name]);
     });
 
     test('Attempting to place unavailable ships will return an error', () => {
