@@ -4,10 +4,10 @@ const Ship = (length) => {
   // eslint-disable-next-line consistent-return
   function getShipType(num) {
     switch (num) {
-      case 5: return 'carrier';
-      case 4: return 'battleship';
-      case 3: return 'destroyer';
-      case 2: return 'patrol';
+      case 4: return 'carrier';
+      case 3: return 'battleship';
+      case 2: return 'destroyer';
+      case 1: return 'patrol';
       default: break;
     }
   }
@@ -28,6 +28,8 @@ const Ship = (length) => {
 
   return {
     name: getShipType(length),
+    head: undefined,
+    tail: undefined,
     length,
     hits: 0,
     sunk: false,
