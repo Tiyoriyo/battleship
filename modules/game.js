@@ -6,16 +6,6 @@ import Ship from './ship.js';
 
 /* eslint-disable no-unused-vars */
 const Game = () => {
-  function getShipType(num) {
-    switch (num) {
-      case 4: return 'carrier';
-      case 3: return 'battleship';
-      case 2: return 'destroyer';
-      case 1: return 'patrol';
-      default: break;
-    }
-  }
-
   function getShipLength(string) {
     switch (string) {
       case 'carrier': return 4;
@@ -27,8 +17,8 @@ const Game = () => {
   }
 
   // Checks if ship is available
-  function checkShipAvailability(player, num) {
-    const shipType = getShipType(num);
+  function checkShipAvailability(player, ship) {
+    const shipType = ship.name;
     const index = player.shipArsenal.indexOf(shipType);
     if (index > -1) { return true; }
     return false;
@@ -69,7 +59,7 @@ const Game = () => {
 
   function placeShip(player, ship, x, y, direction) {
     if (!checkTrack(ship, x, y, direction, player.board)) return 'Error: Cannot place ship';
-    if (!checkShipAvailability(player, ship.length)) return 'Error: Unavailable ship';
+    if (!checkShipAvailability(player, ship)) return 'Error: Unavailable ship';
 
     let aX = x;
     let aY = y;
