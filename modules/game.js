@@ -8,20 +8,20 @@ import Ship from './ship.js';
 const Game = () => {
   function getShipType(num) {
     switch (num) {
-      case 5: return 'carrier';
-      case 4: return 'battleship';
-      case 3: return 'destroyer';
-      case 2: return 'patrol';
+      case 4: return 'carrier';
+      case 3: return 'battleship';
+      case 2: return 'destroyer';
+      case 1: return 'patrol';
       default: break;
     }
   }
 
   function getShipLength(string) {
     switch (string) {
-      case 'carrier': return 5;
-      case 'battleship': return 4;
-      case 'destroyer': return 3;
-      case 'patrol': return 2;
+      case 'carrier': return 4;
+      case 'battleship': return 3;
+      case 'destroyer': return 2;
+      case 'patrol': return 1;
       default: break;
     }
   }
@@ -37,11 +37,10 @@ const Game = () => {
     let curX = x; let curY = y;
     for (let i = 0; i < ship.length; i += 1) {
       if (curX > 9 || curX < 0 || curY > 9 || curY < 0) return false;
+      if (board[curX][curY].shipNearby) return false;
       if (board[curX][curY].ship !== undefined) return false;
       switch (direction) {
         case 'down': curY += 1; break;
-        case 'up': curY -= 1; break;
-        case 'left': curX -= 1; break;
         case 'right': curX += 1; break;
         default: break;
       }
@@ -50,29 +49,36 @@ const Game = () => {
   }
 
   function activateShip(player, ship) {
-    const index = player.shipArsenal.indexOf(getShipType(ship.length));
+    const index = player.shipArsenal.indexOf(ship.name);
     player.shipArsenal.splice(index, 1);
-    player.activeShips.push(ship);
-  }
-
-  function checkErrors(player, ship, x, y, direction) {
-    const truecheck1 = checkTrack(ship, x, y, direction, player.board);
-    const truecheck2 = checkShipAvailability(player, ship.length);
-
-    if (truecheck1 === false || truecheck2 === false) return true;
+    player.activeShips.push(ship.name);
   }
 
   function placeShip(player, ship, x, y, direction) {
-    if (checkErrors(player, ship, x, y, direction)) return 'Error';
+    if (!checkTrack(ship, x, y, direction, player.board)) return 'Error: Cannot place ship';
+    if (!checkShipAvailability(player, ship.length)) return 'Error: Unavailable ship';
+
     let curX = x;
     let curY = y;
+
     const { board } = player;
     for (let i = 0; i < ship.length; i += 1) {
       board[curX][curY].ship = ship;
+      const neighbours = [[curX - 1, curY - 1], [curX, curY - 1],
+        [curX + 1, curY - 1], [curX + 1, curY],
+        [curX + 1, curY + 1], [curX, curY + 1],
+        [curX - 1, curY + 1], [curX - 1, curY],
+      ];
+      for (let j = 0; j < neighbours.length; j += 1) {
+        const nX = neighbours[j][0]; const nY = neighbours[j][1];
+        if (board[nX]) {
+          if (board[nX][nY]) {
+            board[nX][nY].shipNearby = true;
+          }
+        }
+      }
       switch (direction) {
         case 'down': curY += 1; break;
-        case 'up': curY -= 1; break;
-        case 'left': curX -= 1; break;
         case 'right': curX += 1; break;
         default: break;
       }
@@ -104,17 +110,16 @@ const Game = () => {
 
   function computerSetup() {
     const { computer } = this;
-    const directionList = ['left', 'right', 'up', 'down'];
-    for (let i = 0; i < 10; i += 1) {
-      while (computer.activeShips.length < computer.activeShips.length + 1) {
-        if (computer.activeShips.length === 10) return;
-        const x = Math.floor(Math.random() * 10);
-        const y = Math.floor(Math.random() * 10);
-        const direction = directionList[Math.floor(Math.random() * 4)];
-        const shipLength = getShipLength(computer.shipArsenal[i]);
-        placeShip(computer, Ship(shipLength), x, y, direction);
-      }
+    const directionList = ['right', 'down'];
+    // for (let i = 0; i < 10; i += 1) {
+    while (computer.activeShips.length !== 10) {
+      const x = Math.floor(Math.random() * 10);
+      const y = Math.floor(Math.random() * 10);
+      const direction = directionList[Math.floor(Math.random() * 2)];
+      const shipLength = getShipLength(computer.shipArsenal[0]);
+      placeShip(computer, Ship(shipLength), x, y, direction);
     }
+    // }
   }
 
   function getFreeSquares(player) {
@@ -132,7 +137,16 @@ const Game = () => {
     const y = Math.floor(Math.random() * 10);
     if (this.player.board[x][y].status) { return computerAttack(); }
     attack(this.player, x, y);
+    // checkWinner(this.player, this.computer);
   }
+
+  // function checkWinner(player, computer) {
+  //   if (player.sunkShips.length === 10 && computer.sunkShips.length !== 10) {
+  //     gameover('player');
+  //   } else if (computer.sunkships.length === 10 && player.sunkShips.length !== 10) {
+  //     gameover('computer');
+  //   }
+  // }
 
   return {
     player: Player('player'),
