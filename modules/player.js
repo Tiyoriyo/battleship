@@ -7,6 +7,7 @@ const Player = (name) => {
         column[j] = {
           ship: undefined,
           status: null,
+          shipNearby: false,
         };
       }
       board.push(column);
