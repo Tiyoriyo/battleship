@@ -28,8 +28,6 @@ const Ship = (length) => {
 
   return {
     name: getShipType(length),
-    head: undefined,
-    tail: undefined,
     length,
     hits: 0,
     sunk: false,
