@@ -26,6 +26,7 @@ const Game = () => {
     }
   }
 
+  // Checks if ship is available
   function checkShipAvailability(player, num) {
     const shipType = getShipType(num);
     const index = player.shipArsenal.indexOf(shipType);
@@ -80,7 +81,7 @@ const Game = () => {
       const neighbours = getNeighbours(aX, aY);
       for (let j = 0; j < neighbours.length; j += 1) {
         const nX = neighbours[j][0]; const nY = neighbours[j][1];
-        // If the neighbouring board position exists, set it to true
+        // If the neighbouring board position exists, set shipNearby to true
         if (board[nX]) { if (board[nX][nY]) { board[nX][nY].shipNearby = true; } }
       }
       aX = updateXY(aX, aY, direction).aX;
