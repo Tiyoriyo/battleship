@@ -33,17 +33,23 @@ const Game = () => {
     return false;
   }
 
+  function updateXY(x, y, direction) {
+    let aX = x; let aY = y;
+    switch (direction) {
+      case 'down': aY += 1; break;
+      case 'right': aX += 1; break;
+      default: break;
+    }
+    return { aX, aY };
+  }
+
   function checkTrack(ship, x, y, direction, board) {
-    let curX = x; let curY = y;
+    let aX = x; let aY = y;
     for (let i = 0; i < ship.length; i += 1) {
-      if (curX > 9 || curX < 0 || curY > 9 || curY < 0) return false;
-      if (board[curX][curY].shipNearby) return false;
-      if (board[curX][curY].ship !== undefined) return false;
-      switch (direction) {
-        case 'down': curY += 1; break;
-        case 'right': curX += 1; break;
-        default: break;
-      }
+      if (aX > 9 || aX < 0 || aY > 9 || aY < 0) return false;
+      if (board[aX][aY].shipNearby || board[aX][aY].ship) return false;
+      aX = updateXY(aX, aY, direction).aX;
+      aY = updateXY(aX, aY, direction).aY;
     }
     return true;
   }
@@ -54,35 +60,34 @@ const Game = () => {
     player.activeShips.push(ship.name);
   }
 
+  function getNeighbours(x, y) {
+    return [[x - 1, y - 1], [x, y - 1], [x + 1, y - 1], [x + 1, y],
+      [x + 1, y + 1], [x, y + 1], [x - 1, y + 1], [x - 1, y],
+    ];
+  }
+
   function placeShip(player, ship, x, y, direction) {
     if (!checkTrack(ship, x, y, direction, player.board)) return 'Error: Cannot place ship';
     if (!checkShipAvailability(player, ship.length)) return 'Error: Unavailable ship';
 
-    let curX = x;
-    let curY = y;
-
+    let aX = x;
+    let aY = y;
     const { board } = player;
+
     for (let i = 0; i < ship.length; i += 1) {
-      board[curX][curY].ship = ship;
-      const neighbours = [[curX - 1, curY - 1], [curX, curY - 1],
-        [curX + 1, curY - 1], [curX + 1, curY],
-        [curX + 1, curY + 1], [curX, curY + 1],
-        [curX - 1, curY + 1], [curX - 1, curY],
-      ];
+      board[aX][aY].ship = ship;
+
+      const neighbours = getNeighbours(aX, aY);
       for (let j = 0; j < neighbours.length; j += 1) {
         const nX = neighbours[j][0]; const nY = neighbours[j][1];
-        if (board[nX]) {
-          if (board[nX][nY]) {
-            board[nX][nY].shipNearby = true;
-          }
-        }
+        // If the neighbouring board position exists, set it to true
+        if (board[nX]) { if (board[nX][nY]) { board[nX][nY].shipNearby = true; } }
       }
-      switch (direction) {
-        case 'down': curY += 1; break;
-        case 'right': curX += 1; break;
-        default: break;
-      }
-    } activateShip(player, ship);
+      aX = updateXY(aX, aY, direction).aX;
+      aY = updateXY(aX, aY, direction).aY;
+    }
+
+    activateShip(player, ship);
     return true;
   }
 
@@ -137,7 +142,6 @@ const Game = () => {
     const y = Math.floor(Math.random() * 10);
     if (this.player.board[x][y].status) { return computerAttack(); }
     attack(this.player, x, y);
-    // checkWinner(this.player, this.computer);
   }
 
   // function checkWinner(player, computer) {
