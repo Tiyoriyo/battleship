@@ -93,6 +93,7 @@ const Game = () => {
   function attack(player, x, y) {
     if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
     if (player.board[x][y].status) { return 'Error: Already Attacked'; }
+
     const square = player.board[x][y];
     if (square.ship) {
       square.status = 'hit';
@@ -117,8 +118,8 @@ const Game = () => {
   }
 
   function getFreeSquares(player) {
-    const { board } = player;
     let total = 0;
+    const { board } = player;
     for (let i = 0; i < board.length; i += 1) {
       for (let j = 0; j < board[i].length; j += 1) {
         if (!board[i][j].status) total += 1;
