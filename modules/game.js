@@ -57,7 +57,7 @@ const Game = () => {
     ];
   }
 
-  function placeShip(player, ship, x, y, direction) {
+  function placeShip(x, y, direction, player, ship) {
     if (!checkTrack(ship, x, y, direction, player.board)) return 'Error: Cannot place ship';
     if (!checkShipAvailability(player, ship)) return 'Error: Unavailable ship';
 
@@ -107,15 +107,13 @@ const Game = () => {
   function computerSetup() {
     const { computer } = this;
     const directionList = ['right', 'down'];
-    // for (let i = 0; i < 10; i += 1) {
     while (computer.activeShips.length !== 10) {
       const x = Math.floor(Math.random() * 10);
       const y = Math.floor(Math.random() * 10);
       const direction = directionList[Math.floor(Math.random() * 2)];
       const shipLength = getShipLength(computer.shipArsenal[0]);
-      placeShip(computer, Ship(shipLength), x, y, direction);
+      placeShip(x, y, direction, computer, Ship(shipLength));
     }
-    // }
   }
 
   function getFreeSquares(player) {
@@ -134,14 +132,6 @@ const Game = () => {
     if (this.player.board[x][y].status) { return computerAttack(); }
     attack(this.player, x, y);
   }
-
-  // function checkWinner(player, computer) {
-  //   if (player.sunkShips.length === 10 && computer.sunkShips.length !== 10) {
-  //     gameover('player');
-  //   } else if (computer.sunkships.length === 10 && player.sunkShips.length !== 10) {
-  //     gameover('computer');
-  //   }
-  // }
 
   return {
     player: Player('player'),
