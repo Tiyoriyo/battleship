@@ -109,6 +109,17 @@ describe('Gameboard Tests', () => {
       game.attack(6, 4, game.player);
       expect(game.attack(5, 3, game.player)).toBe('Error: Square is used');
     });
+
+    test('Check winner works', () => {
+      game.placeShip(4, 4, 'right', game.player, Ship(1));
+      game.placeShip(4, 8, 'right', game.computer, Ship(1));
+      game.placeShip(4, 6, 'right', game.computer, Ship(1));
+
+      game.attack(4, 8, game.computer);
+      expect(game.checkWinner(game.player, game.computer)).toBe(null);
+      game.attack(4, 6, game.computer);
+      expect(game.checkWinner(game.player, game.computer)).toBe('player');
+    });
   });
 
   describe('Computer Tests', () => {
