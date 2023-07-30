@@ -35,6 +35,12 @@ const Game = () => {
     return { aX, aY };
   }
 
+  // Checks if board position exists
+  function checkBoard(x, y, board) {
+    if (board[x]) { if (board[x][y]) { return true; } }
+    return false;
+  }
+
   // Checks if theoretical ship position is possible
   function checkTrack(ship, x, y, direction, board) {
     let aX = x; let aY = y;
@@ -74,8 +80,7 @@ const Game = () => {
       const neighbours = getNeighbours(aX, aY);
       for (let j = 0; j < neighbours.length; j += 1) {
         const nX = neighbours[j][0]; const nY = neighbours[j][1];
-        // If the neighbouring board position exists, set shipNearby to true
-        if (board[nX]) { if (board[nX][nY]) { board[nX][nY].shipNearby = true; } }
+        if (checkBoard(nX, nY, board)) board[nX][nY].shipNearby = true;
       }
       aX = updateXY(aX, aY, direction).aX;
       aY = updateXY(aX, aY, direction).aY;
@@ -93,18 +98,12 @@ const Game = () => {
     }
   }
 
-  // Checks if board position exists
-  function checkBoard(x, y, board) {
-    if (board[x]) { if (board[x][y]) { return true; } }
-    return false;
-  }
-
   function attack(x, y, player) {
     if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
     const square = player.board[x][y];
     if (square.status === 'hit' || square.status === 'miss') { return 'Error: Already Attacked'; }
     if (player.board[x][y].status === 'expose') { return 'Error: Hit Nearby'; }
-
+    const { board } = player;
     if (square.ship) {
       square.status = 'hit';
       square.ship.damage();
@@ -114,8 +113,8 @@ const Game = () => {
         const nX = neighbours[i][0];
         const nY = neighbours[i][1];
         if (checkBoard(nX, nY, player.board)) {
-          if (!player.board[nX][nY].status && !player.board[nX][nY].ship) {
-            player.board[nX][nY].status = 'expose';
+          if (!board[nX][nY].status && !board[nX][nY].ship) {
+            board[nX][nY].status = 'expose';
           }
         }
       }
