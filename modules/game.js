@@ -122,6 +122,7 @@ const Game = () => {
       square.ship.damage();
       checkSunkStatus(player, square.ship);
       exposeSurroundings(x, y, player);
+      checkWinner(this.player, this.computer);
       return true;
     }
     square.status = 'miss';
@@ -157,6 +158,15 @@ const Game = () => {
     attack(x, y, this.player);
   }
 
+  function checkWinner(player, computer) {
+    if (player.activeShips.length === 0) {
+      return 'computer';
+    } if (computer.activeShips.length === 0) {
+      return 'player';
+    }
+    return null;
+  }
+
   return {
     player: Player('player'),
     computer: Player('computer'),
@@ -165,6 +175,7 @@ const Game = () => {
     computerSetup,
     getFreeSquares,
     computerAttack,
+    checkWinner,
   };
 };
 
