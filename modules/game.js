@@ -93,6 +93,12 @@ const Game = () => {
     }
   }
 
+  // Checks if board position exists
+  function checkBoard(x, y, board) {
+    if (board[x]) { if (board[x][y]) { return true; } }
+    return false;
+  }
+
   function attack(x, y, player) {
     if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
     const square = player.board[x][y];
@@ -107,11 +113,9 @@ const Game = () => {
       for (let i = 0; i < neighbours.length; i += 1) {
         const nX = neighbours[i][0];
         const nY = neighbours[i][1];
-        if (player.board[nX]) {
-          if (player.board[nX][nY]) {
-            if (!player.board[nX][nY].status && !player.board[nX][nY].ship) {
-              player.board[nX][nY].status = 'expose';
-            }
+        if (checkBoard(nX, nY, player.board)) {
+          if (!player.board[nX][nY].status && !player.board[nX][nY].ship) {
+            player.board[nX][nY].status = 'expose';
           }
         }
       }
