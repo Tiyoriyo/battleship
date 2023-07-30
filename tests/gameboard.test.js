@@ -51,8 +51,8 @@ describe('Gameboard Tests', () => {
     });
     test('Square status reflects whether hit or missed', () => {
       game.placeShip(4, 4, 'right', game.computer, ship1);
-      game.attack(game.computer, 5, 4);
-      game.attack(game.computer, 4, 5);
+      game.attack(5, 4, game.computer);
+      game.attack(4, 5, game.computer);
 
       expect(game.computer.board[5][4].status).toBe('hit');
       expect(game.computer.board[4][5].status).toBe('miss');
@@ -70,12 +70,12 @@ describe('Gameboard Tests', () => {
 
     test('attack does not work if the square has already been attacked', () => {
       game.placeShip(4, 4, 'right', game.computer, ship1);
-      game.attack(game.computer, 4, 4);
-      expect(game.attack(game.computer, 4, 4)).toBe('Error: Already Attacked');
+      game.attack(4, 4, game.computer);
+      expect(game.attack(4, 4, game.computer)).toBe('Error: Already Attacked');
     });
 
     test('attack outside board bounds returns error', () => {
-      expect(game.attack(game.computer, 11, 12)).toBe('Error: Attack is not within bounds');
+      expect(game.attack(11, 12, game.computer)).toBe('Error: Attack is not within bounds');
     });
   });
 
@@ -87,8 +87,8 @@ describe('Gameboard Tests', () => {
       game.placeShip(4, 9, 'right', game.computer, ship3);
       expect(game.computer.activeShips).toEqual(['destroyer', 'battleship', 'battleship']);
 
-      game.attack(game.computer, 4, 4);
-      game.attack(game.computer, 5, 4);
+      game.attack(4, 4, game.computer);
+      game.attack(5, 4, game.computer);
       expect(game.computer.activeShips).toEqual([ship2.name, ship3.name]);
     });
 
@@ -100,8 +100,13 @@ describe('Gameboard Tests', () => {
 
     test('Sunk ship is added to sunkShip player array', () => {
       game.placeShip(4, 4, 'right', game.computer, Ship(1));
-      game.attack(game.computer, 4, 4);
+      game.attack(4, 4, game.computer);
       expect(game.computer.sunkShips).toEqual(['patrol']);
+    });
+
+    test('Hits attempted on neighbour squares of hit square are impossible', () => {
+      game.placeShip(4, 4, 'right', game.player, ship1);
+      game.attack(6, 4, game.player);
     });
   });
 
