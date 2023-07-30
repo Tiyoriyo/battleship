@@ -93,7 +93,7 @@ const Game = () => {
     }
   }
 
-  function attack(player, x, y) {
+  function attack(x, y, player) {
     if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
     if (player.board[x][y].status) { return 'Error: Already Attacked'; }
 
@@ -134,7 +134,7 @@ const Game = () => {
     const x = Math.floor(Math.random() * 10);
     const y = Math.floor(Math.random() * 10);
     if (this.player.board[x][y].status) { return computerAttack(); }
-    attack(this.player, x, y);
+    attack(x, y, this.player);
   }
 
   return {
