@@ -95,13 +95,26 @@ const Game = () => {
 
   function attack(x, y, player) {
     if (x > 9 || x < 0 || y > 9 || y < 0) { return 'Error: Attack is not within bounds'; }
-    if (player.board[x][y].status) { return 'Error: Already Attacked'; }
-
     const square = player.board[x][y];
+    if (square.status === 'hit' || square.status === 'miss') { return 'Error: Already Attacked'; }
+    if (player.board[x][y].status === 'expose') { return 'Error: Hit Nearby'; }
+
     if (square.ship) {
       square.status = 'hit';
       square.ship.damage();
       checkSunkStatus(player, square.ship);
+      const neighbours = getNeighbours(x, y);
+      for (let i = 0; i < neighbours.length; i += 1) {
+        const nX = neighbours[i][0];
+        const nY = neighbours[i][1];
+        if (player.board[nX]) {
+          if (player.board[nX][nY]) {
+            if (!player.board[nX][nY].status && !player.board[nX][nY].ship) {
+              player.board[nX][nY].status = 'expose';
+            }
+          }
+        }
+      }
       return true;
     }
     square.status = 'miss';
