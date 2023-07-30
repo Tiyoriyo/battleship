@@ -71,7 +71,7 @@ describe('Gameboard Tests', () => {
     test('attack does not work if the square has already been attacked', () => {
       game.placeShip(4, 4, 'right', game.computer, ship1);
       game.attack(4, 4, game.computer);
-      expect(game.attack(4, 4, game.computer)).toBe('Error: Already Attacked');
+      expect(game.attack(4, 4, game.computer)).toBe('Error: Square is used');
     });
 
     test('attack outside board bounds returns error', () => {
@@ -107,7 +107,7 @@ describe('Gameboard Tests', () => {
     test('Hits attempted on neighbour squares of hit square are impossible', () => {
       game.placeShip(4, 4, 'right', game.player, ship1);
       game.attack(6, 4, game.player);
-      expect(game.attack(5, 3, game.player)).toBe('Error: Hit Nearby');
+      expect(game.attack(5, 3, game.player)).toBe('Error: Square is used');
     });
   });
 
