@@ -50,13 +50,13 @@ describe('Gameboard Tests', () => {
       expect(game.player.board[8][4].ship).toBe(undefined);
     });
     test('Square status reflects whether hit or missed', () => {
-      game.placeShip(4, 4, 'right', game.computer, ship1);
-      game.attack(5, 4, game.computer);
-      game.attack(4, 5, game.computer);
+      game.placeShip(0, 0, 'right', game.computer, ship1);
+      game.attack(1, 0, game.computer);
+      game.attack(9, 9, game.computer);
 
-      expect(game.computer.board[5][4].status).toBe('hit');
-      expect(game.computer.board[4][5].status).toBe('miss');
-      expect(game.computer.board[6][4].status).toBe(null);
+      expect(game.computer.board[1][0].status).toBe('hit');
+      expect(game.computer.board[9][9].status).toBe('miss');
+      expect(game.computer.board[4][4].status).toBe(null);
     });
   });
 
@@ -107,6 +107,7 @@ describe('Gameboard Tests', () => {
     test('Hits attempted on neighbour squares of hit square are impossible', () => {
       game.placeShip(4, 4, 'right', game.player, ship1);
       game.attack(6, 4, game.player);
+      expect(game.attack(5, 3, game.player)).toBe('Error: Hit Nearby');
     });
   });
 
