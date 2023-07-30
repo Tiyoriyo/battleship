@@ -24,6 +24,7 @@ const Game = () => {
     return false;
   }
 
+  // Ship Length Traversal Method
   function updateXY(x, y, direction) {
     let aX = x; let aY = y;
     switch (direction) {
@@ -34,6 +35,7 @@ const Game = () => {
     return { aX, aY };
   }
 
+  // Checks if theoretical ship position is possible
   function checkTrack(ship, x, y, direction, board) {
     let aX = x; let aY = y;
     for (let i = 0; i < ship.length; i += 1) {
@@ -51,6 +53,7 @@ const Game = () => {
     player.activeShips.push(ship.name);
   }
 
+  // Square neighbour list
   function getNeighbours(x, y) {
     return [[x - 1, y - 1], [x, y - 1], [x + 1, y - 1], [x + 1, y],
       [x + 1, y + 1], [x, y + 1], [x - 1, y + 1], [x - 1, y],
