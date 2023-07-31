@@ -7,11 +7,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 50px;
     
     height: 60vh;
 }
 
-.mainboard {
+.board {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     width: 300px;

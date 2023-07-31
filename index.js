@@ -2,22 +2,31 @@
 import Game from './modules/game.js';
 
 const game = Game();
-const mainboard = document.querySelector('.mainboard');
+const { player } = game;
+const { computer } = game;
+const plyBoard = document.querySelector('.boardSpace1');
+const cpuBoard = document.querySelector('.boardSpace2');
 
-for (let i = 0; i < 10; i++) {
-  const column = document.createElement('div');
-  column.classList.add('column');
-  for (let j = 0; j < 10; j++) {
-    const square = document.createElement('div');
-    const content = document.createElement('div');
-    square.classList.add('square');
-    content.classList.add('content');
+const buildBoard = (player) => {
+  const board = document.createElement('div');
+  board.classList.add('board');
 
-    square.appendChild(content);
-    column.appendChild(square);
+  for (let i = 0; i < 10; i++) {
+    const column = document.createElement('div');
+    column.classList.add('column');
+    for (let j = 0; j < 10; j++) {
+      const square = document.createElement('div');
+      const content = document.createElement('div');
+      square.classList.add('square');
+      content.classList.add('content');
+
+      square.appendChild(content);
+      column.appendChild(square);
+    }
+    board.appendChild(column);
   }
-  mainboard.appendChild(column);
-}
+  return board;
+};
 
-// console.log([...mainboard.childNodes][1]);
-console.log(mainboard.childNodes[0].childNodes[1].childNodes[0].innerHTML = '&#183;');
+plyBoard.appendChild(buildBoard(player));
+cpuBoard.appendChild(buildBoard(player));
