@@ -112,6 +112,15 @@ const Game = () => {
     }
   }
 
+  function checkWinner(player, computer) {
+    if (player.activeShips.length === 0) {
+      return 'computer';
+    } if (computer.activeShips.length === 0) {
+      return 'player';
+    }
+    return null;
+  }
+
   function attack(x, y, player) {
     if (!checkBoard(x, y, player.board)) { return 'Error: Attack is not within bounds'; }
     if (player.board[x][y].status) { return 'Error: Square is used'; }
@@ -129,15 +138,14 @@ const Game = () => {
     return false;
   }
 
-  function computerSetup() {
-    const { computer } = this;
+  function shipSetup(player) {
     const directionList = ['right', 'down'];
-    while (computer.activeShips.length !== 10) {
+    while (player.activeShips.length !== 10) {
       const x = Math.floor(Math.random() * 10);
       const y = Math.floor(Math.random() * 10);
       const direction = directionList[Math.floor(Math.random() * 2)];
-      const shipLength = getShipLength(computer.shipArsenal[0]);
-      placeShip(x, y, direction, computer, Ship(shipLength));
+      const shipLength = getShipLength(player.shipArsenal[0]);
+      placeShip(x, y, direction, player, Ship(shipLength));
     }
   }
 
@@ -158,21 +166,12 @@ const Game = () => {
     attack(x, y, this.player);
   }
 
-  function checkWinner(player, computer) {
-    if (player.activeShips.length === 0) {
-      return 'computer';
-    } if (computer.activeShips.length === 0) {
-      return 'player';
-    }
-    return null;
-  }
-
   return {
     player: Player('player'),
     computer: Player('computer'),
     placeShip,
     attack,
-    computerSetup,
+    shipSetup,
     getFreeSquares,
     computerAttack,
     checkWinner,
