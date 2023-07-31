@@ -124,7 +124,7 @@ describe('Gameboard Tests', () => {
 
   describe('Computer Tests', () => {
     test('Computer places all moves successfully', () => {
-      game.computerSetup();
+      game.shipSetup(game.computer);
       expect(game.computer.activeShips.length).toEqual(10);
       expect(game.computer.shipArsenal).toEqual([]);
     });
