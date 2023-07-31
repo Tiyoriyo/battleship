@@ -17,7 +17,7 @@ body {
     grid-template-columns: repeat(10, 1fr);
     width: 300px;
     height: 300px;
-    border: 1px solid rgb(168, 168, 168);
+    border: 1px solid #a8a8a8;
 }
 
 .column {
@@ -28,7 +28,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid rgb(168, 168, 168);
+    border: 1px solid rgb(168, 168, 168, 0.4);
 }
 
 .content {
