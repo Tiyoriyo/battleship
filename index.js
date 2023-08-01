@@ -7,9 +7,11 @@ const { player } = game;
 const { computer } = game;
 const plyBoard = document.querySelector('.boardSpace1');
 const cpuBoard = document.querySelector('.boardSpace2');
+const plyReset = document.querySelector('#plyReset');
+
 game.shipSetup(player);
 
-const buildBoard = (player) => {
+const buildBoard = () => {
   const board = document.createElement('div');
   board.classList.add('board');
 
@@ -37,13 +39,25 @@ const debugShowShips = () => {
       if (player.board[i][j].ship) {
         const column = columnList[i].childNodes;
         column[j].style.background = '#0D3B66';
+        column[j].classList.add('active');
       }
     }
   }
 };
 
+const resetShipSetup = () => {
+  player.resetBoard();
+  player.resetShips();
+  game.shipSetup(player);
+  plyBoard.innerHTML = '';
+  plyBoard.appendChild(buildBoard());
+  debugShowShips();
+};
+
 plyBoard.appendChild(buildBoard(player));
 cpuBoard.appendChild(buildBoard(player));
+
+plyReset.addEventListener('click', resetShipSetup);
 
 debugShowShips();
 
