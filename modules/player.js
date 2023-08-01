@@ -14,6 +14,18 @@ const Player = (name) => {
     }
     return board;
   }
+
+  function resetBoard() {
+    this.board = createBoard();
+  }
+
+  function resetShips() {
+    this.activeShips = [];
+    this.sunkShips = [];
+    this.shipArsenal = ['carrier', 'battleship', 'battleship',
+      'destroyer', 'destroyer', 'destroyer', 'patrol', 'patrol', 'patrol', 'patrol'];
+  }
+
   return {
     name,
     board: createBoard(),
@@ -21,15 +33,8 @@ const Player = (name) => {
     sunkShips: [],
     shipArsenal: ['carrier', 'battleship', 'battleship',
       'destroyer', 'destroyer', 'destroyer', 'patrol', 'patrol', 'patrol', 'patrol'],
-    resetBoard() {
-      this.board = createBoard();
-    },
-    resetShips() {
-      this.activeShips = [];
-      this.sunkShips = [];
-      this.shipArsenal = ['carrier', 'battleship', 'battleship',
-        'destroyer', 'destroyer', 'destroyer', 'patrol', 'patrol', 'patrol', 'patrol'];
-    },
+    resetBoard,
+    resetShips,
   };
 };
 
