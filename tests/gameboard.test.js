@@ -77,6 +77,22 @@ describe('Gameboard Tests', () => {
     test('attack outside board bounds returns error', () => {
       expect(game.attack(11, 12, game.computer)).toBe('Error: Attack is not within bounds');
     });
+
+    test('Neighbouring squares correspond to appropriate stage of attack sequence', () => {
+      game.placeShip(4, 4, 'right', game.computer, Ship(3));
+      game.attack(4, 4, game.computer);
+
+      expect(game.computer.board[3][3].status
+        && game.computer.board[5][3].status
+        && game.computer.board[3][5].status
+        && game.computer.board[5][5].status).toBe('expose');
+
+      game.attack(5, 4, game.computer);
+      expect(game.computer.board[3][4].status).toBe(null);
+
+      game.attack(6, 4, game.computer);
+      expect(game.computer.board[3][4].status).toBe('expose');
+    });
   });
 
   describe('Game Controller tests', () => {
