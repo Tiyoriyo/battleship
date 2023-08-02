@@ -1,8 +1,8 @@
 /* eslint-disable import/extensions */
 /* eslint-disable consistent-return */
 
-import Player from './player.js';
-import Ship from './ship.js';
+import Player from './player';
+import Ship from './ship';
 
 /* eslint-disable no-unused-vars */
 const Game = () => {
