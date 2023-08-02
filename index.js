@@ -2,12 +2,19 @@
 /* eslint-disable import/extensions */
 import Game from './modules/game.js';
 
+// Game Controller Setup
 const game = Game();
 const { player } = game;
 const { computer } = game;
+
+// Board Spaces
 const plyBoard = document.querySelector('.boardSpace1');
 const cpuBoard = document.querySelector('.boardSpace2');
+
+// Buttons
+const buttonHolder = document.querySelector('.buttonHolder');
 const plyReset = document.querySelector('#plyReset');
+const gamePlay = document.querySelector('#gamePlay');
 
 game.shipSetup(player);
 
@@ -54,10 +61,28 @@ const resetShipSetup = () => {
   debugShowShips();
 };
 
+const addEventListeners = (e) => {
+  const columns = cpuBoard.childNodes[0].childNodes;
+  for (let i = 0; i < columns.length; i++) {
+    const column = columns[i].childNodes;
+    for (let j = 0; j < columns.length; j++) {
+      column[j].addEventListener('click', () => {
+        console.log(i, j);
+      });
+    }
+  }
+};
+
+const startGame = () => {
+  buttonHolder.innerHTML = '';
+  addEventListeners();
+};
+
 plyBoard.appendChild(buildBoard(player));
 cpuBoard.appendChild(buildBoard(player));
 
 plyReset.addEventListener('click', resetShipSetup);
+gamePlay.addEventListener('click', startGame);
 
 debugShowShips();
 
