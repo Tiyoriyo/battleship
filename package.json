@@ -2,10 +2,12 @@
   "name": "battleship",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "jest",
-    "watch": "jest --watch"
+    "watch": "jest --watch",
+    "watch": "webpack --watch",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -21,11 +23,14 @@
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
     "@types/jest": "^29.5.3",
+    "css-loader": "^6.8.1",
     "eslint": "^8.45.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
+    "html-webpack-plugin": "^5.5.3",
     "jest": "^29.6.1",
-    "webpack": "^5.88.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
   }
 }
