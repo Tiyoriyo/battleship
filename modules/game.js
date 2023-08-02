@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable import/extensions */
 /* eslint-disable consistent-return */
 
