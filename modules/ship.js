@@ -30,7 +30,10 @@ const Ship = (length) => {
     name: getShipType(length),
     length,
     hits: 0,
+    head: undefined,
+    tail: undefined,
     sunk: false,
+    direction: undefined,
     damage,
     isSunk,
   };

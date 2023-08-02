@@ -60,24 +60,47 @@ const Game = () => {
   }
 
   // Square neighbour list
-  function getNeighbours(x, y) {
-    return [[x - 1, y - 1], [x, y - 1], [x + 1, y - 1], [x + 1, y],
-      [x + 1, y + 1], [x, y + 1], [x - 1, y + 1], [x - 1, y],
-    ];
+  //   ALL       FIRSTHIT    SECONDHITDOWN  SECONDHITRIGHT
+  // [ x x x ]   [ x - x ]    [ x - x ]     [ x x x ]
+  // [ x o x ]   [ - o - ]    [ x o x ]     [ - o - ]
+  // [ x x x ]   [ x - x ]    [ x - x ]     [ x x x ]
+
+  function getNeighbours(x, y, input) {
+    let array;
+
+    switch (input) {
+      case 'all': array = [[x - 1, y - 1], [x, y - 1], [x + 1, y - 1],
+        [x + 1, y], [x + 1, y + 1], [x, y + 1], [x - 1, y + 1], [x - 1, y],
+      ]; break;
+      case 'firstHit': array = [[x - 1, y - 1],
+        [x + 1, y - 1], [x + 1, y + 1], [x - 1, y + 1],
+      ]; break;
+      case 'secondHitDown': array = [[x - 1, y - 1], [x + 1, y - 1],
+        [x + 1, y], [x + 1, y + 1], [x - 1, y + 1], [x - 1, y],
+      ]; break; // x - x
+      case 'secondHitRight': array = [[x - 1, y - 1], [x, y - 1],
+        [x + 1, y - 1], [x + 1, y + 1], [x, y + 1], [x - 1, y + 1],
+      ]; break;
+      default: break;
+    }
+
+    return array;
   }
 
   function placeShip(x, y, direction, player, ship) {
     if (!checkTrack(ship, x, y, direction, player.board)) return 'Error: Cannot place ship';
     if (!checkShipAvailability(player, ship)) return 'Error: Unavailable ship';
-
     let aX = x;
     let aY = y;
     const { board } = player;
+    ship.direction = direction;
 
     for (let i = 0; i < ship.length; i += 1) {
+      if (i === 0) { ship.head = [aX, aY]; }
+      if (i === ship.length - 1) { ship.tail = [aX, aY]; }
       board[aX][aY].ship = ship;
 
-      const neighbours = getNeighbours(aX, aY);
+      const neighbours = getNeighbours(aX, aY, 'all');
       for (let j = 0; j < neighbours.length; j += 1) {
         const nX = neighbours[j][0]; const nY = neighbours[j][1];
         if (checkBoard(nX, nY, board)) board[nX][nY].shipNearby = true;
@@ -98,9 +121,21 @@ const Game = () => {
     }
   }
 
-  function exposeSurroundings(x, y, player) {
+  function exposeSurroundings(x, y, player, ship) {
     const { board } = player;
-    const neighbours = getNeighbours(x, y);
+
+    let neighbours;
+
+    if (ship.hits === 1) {
+      neighbours = getNeighbours(x, y, 'firstHit');
+    } else if (ship.isSunk()) {
+      neighbours = getNeighbours(x, y, 'all');
+    } else if (ship.hits > 1 && ship.direction === 'down') {
+      neighbours = getNeighbours(x, y, 'secondHitDown');
+    } else if (ship.hits > 1 && ship.direction === 'right') {
+      neighbours = getNeighbours(x, y, 'secondHitRight');
+    }
+
     for (let i = 0; i < neighbours.length; i += 1) {
       const nX = neighbours[i][0];
       const nY = neighbours[i][1];
@@ -130,7 +165,11 @@ const Game = () => {
       square.status = 'hit';
       square.ship.damage();
       checkSunkStatus(player, square.ship);
-      exposeSurroundings(x, y, player);
+      if (square.ship.isSunk()) {
+        exposeSurroundings(square.ship.head[0], square.ship.head[1], player, square.ship);
+        exposeSurroundings(square.ship.tail[0], square.ship.tail[1], player, square.ship);
+      }
+      exposeSurroundings(x, y, player, square.ship);
       checkWinner(this.player, this.computer);
       return true;
     }
