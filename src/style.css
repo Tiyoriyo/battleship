@@ -50,17 +50,17 @@ body {
 }
 
 .hit {
-    font-size: 24px;
+    font-size: 36px;
     cursor: default;
 }
 
-.miss, .expose {
+.miss, .expose, .hit {
     line-height: 40%;
 }
 
 .Lol {
 
-    color: rgb(35, 34, 2);
+    color: rgb(255, 195, 195);
 }
 
 
