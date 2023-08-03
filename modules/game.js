@@ -127,7 +127,7 @@ const Game = () => {
 
     let neighbours;
 
-    if (ship.hits === 1) {
+    if (ship.hits === 1 && !ship.isSunk()) {
       neighbours = getNeighbours(x, y, 'firstHit');
     } else if (ship.isSunk()) {
       neighbours = getNeighbours(x, y, 'all');
