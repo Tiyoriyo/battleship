@@ -28,8 +28,8 @@ const buildBoard = () => {
     for (let j = 0; j < 10; j++) {
       const square = document.createElement('div');
       const content = document.createElement('div');
-      square.classList.add('square');
-      content.classList.add('content', 'noselect');
+      square.classList.add('square', 'noselect');
+      content.classList.add('content');
 
       square.appendChild(content);
       column.appendChild(square);
