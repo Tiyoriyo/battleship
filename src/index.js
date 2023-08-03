@@ -61,6 +61,14 @@ const resetShipSetup = () => {
   debugShowShips();
 };
 
+const styleSquare = (element, result) => {
+  if (result) {
+    element.innerHTML = '&#183;';
+    element.parentElement.classList.add(result);
+    element.classList.add(result);
+  }
+};
+
 const updateBoard = () => {
   const columns = cpuBoard.childNodes[0].childNodes;
   for (let i = 0; i < columns.length; i++) {
@@ -69,20 +77,7 @@ const updateBoard = () => {
       const result = computer.board[i][j].status;
       const subject = column[j].childNodes[0];
 
-      if (result === 'miss') {
-        subject.innerHTML = '&#183;';
-        subject.style.color = 'grey';
-        column[j].style.backgroundColor = 'rgb(240, 240, 240)';
-        subject.classList.add('miss');
-      } else if (result === 'expose') {
-        subject.innerHTML = '&#183;';
-        column[j].style.backgroundColor = 'rgb(240, 240, 240)';
-        subject.classList.add('expose');
-      } else if (result === 'hit') {
-        subject.innerHTML = '&#183;';
-        column[j].style.backgroundColor = 'rgb(255, 195, 195)';
-        subject.classList.add('hit');
-      }
+      styleSquare(subject, result);
     }
   }
 };
