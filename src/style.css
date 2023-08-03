@@ -51,17 +51,14 @@ body {
 
 .hit {
     font-size: 36px;
-    cursor: default;
     background-color: rgb(255, 195, 195);
 }
 
 .miss {
     color: grey;
-    background-color: rgb(240, 240, 240);
-
 }
 
-.expose {
+.miss, .expose {
     background-color: rgb(240, 240, 240);
 }
 
@@ -69,10 +66,6 @@ body {
     line-height: 40%;
 }
 
-.Lol {
-
-    color: rgb(255, 195, 195);
-}
 
 
 
