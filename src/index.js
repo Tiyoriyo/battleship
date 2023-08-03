@@ -62,10 +62,11 @@ const resetShipSetup = () => {
 };
 
 const styleSquare = (element, result) => {
+  const subject = element;
   if (result) {
-    element.innerHTML = '&#183;';
-    element.parentElement.classList.add(result);
-    element.classList.add(result);
+    subject.innerHTML = '&#183;';
+    subject.parentElement.classList.add(result);
+    subject.classList.add(result);
   }
 };
 
