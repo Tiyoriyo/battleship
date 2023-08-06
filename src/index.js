@@ -2,8 +2,11 @@
 /* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 /* eslint-disable import/extensions */
-import Game from '../modules/game';
+import Game from './modules/game';
 import './style.css';
+import Logo from './images/logo.png';
+
+document.querySelector('.logo').src = Logo;
 
 // Game Controller Setup
 const game = Game();
@@ -143,11 +146,14 @@ const startGame = () => {
   setupEventListeners('add');
 };
 
-const displayWinner = () => {
+const displayWinner = (winner) => {
   const board1 = document.createElement('div');
   const board2 = document.createElement('div');
   board1.classList.add('overlay');
   board2.classList.add('overlay');
+  board1.textContent = (winner === 'player') ? 'Computer Loses' : 'Computer Wins';
+  board2.textContent = (winner === 'player') ? 'Player Wins' : 'Player Loses';
+
   plyBoard.append(board1);
   cpuBoard.append(board2);
   plyBoard.childNodes[0].classList.add('blur');
@@ -156,10 +162,10 @@ const displayWinner = () => {
 
 const checkWin = () => {
   // const result = game.checkWinner(player, computer);
-  const result = true;
+  const result = 'player';
   if (result) {
     setupEventListeners('remove');
-    displayWinner();
+    displayWinner(result);
     return true;
   }
   return false;
