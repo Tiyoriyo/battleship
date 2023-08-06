@@ -71,7 +71,28 @@ line-height: 40%;
 }
 
 .lol {
-    background-color: #b2d5f6;
+    background-color: #8ba5be;
+}
+
+.overlay {
+    position: absolute;
+    display: flex;
+    flex: auto;
+    width: 300px;
+    height: 300px;
+    z-index: 1;
+    /* background-color: rgb(255, 255, 255, 0.8); */
+    /* filter: blur(); */
+}
+
+.boardSpace1, .boardSpace2 {
+    display: flex;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.blur {
+    filter: blur(5px);
 }
 
 

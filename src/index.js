@@ -122,7 +122,7 @@ const attack = (x, y, target) => {
     updateBoard(player);
     setupEventListeners('add');
     checkWin();
-  }, 500);
+  }, 1);
 };
 
 function brightenPlayerColours() {
@@ -143,12 +143,26 @@ const startGame = () => {
   setupEventListeners('add');
 };
 
+const displayWinner = () => {
+  const board1 = document.createElement('div');
+  const board2 = document.createElement('div');
+  board1.classList.add('overlay');
+  board2.classList.add('overlay');
+  plyBoard.append(board1);
+  cpuBoard.append(board2);
+  plyBoard.childNodes[0].classList.add('blur');
+  cpuBoard.childNodes[0].classList.add('blur');
+};
+
 const checkWin = () => {
-  const result = game.checkWinner(player, computer);
+  // const result = game.checkWinner(player, computer);
+  const result = true;
   if (result) {
     setupEventListeners('remove');
+    displayWinner();
     return true;
   }
+  return false;
 };
 
 game.shipSetup(player);
