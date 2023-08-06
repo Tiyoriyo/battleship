@@ -113,15 +113,15 @@ const setupEventListeners = (string) => {
 };
 
 const attack = (x, y, target) => {
-  console.log(x, y);
-  // game.attack(x, y, target);
   if (game.attack(x, y, target) === 'Error: Square is used') return;
   updateBoard(target);
   setupEventListeners('remove');
+  if (checkWin()) return;
   game.computerAttack();
   setTimeout(() => {
     updateBoard(player);
     setupEventListeners('add');
+    checkWin();
   }, 500);
 };
 
@@ -141,6 +141,14 @@ const startGame = () => {
   buttonHolder.innerHTML = '';
   brightenPlayerColours();
   setupEventListeners('add');
+};
+
+const checkWin = () => {
+  const result = game.checkWinner(player, computer);
+  if (result) {
+    setupEventListeners('remove');
+    return true;
+  }
 };
 
 game.shipSetup(player);

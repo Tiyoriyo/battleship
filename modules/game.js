@@ -153,10 +153,8 @@ const Game = () => {
 
   function checkWinner(player, computer) {
     if (player.activeShips.length === 0) {
-      console.log('computer wins');
       return 'computer';
     } if (computer.activeShips.length === 0) {
-      console.log('player wins');
       return 'player';
     }
     return null;
