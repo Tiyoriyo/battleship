@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 /* eslint-disable import/extensions */
@@ -45,8 +46,8 @@ const debugShowShips = () => {
     for (let j = 0; j < 10; j++) {
       if (player.board[i][j].ship) {
         const column = columnList[i].childNodes;
-        column[j].style.background = '#0D3B66';
         column[j].classList.add('active');
+        column[j].style.backgroundColor = '#8ba5be';
       }
     }
   }
@@ -61,48 +62,85 @@ const resetShipSetup = () => {
   debugShowShips();
 };
 
-const styleSquare = (element, result) => {
+const styleSquare = (element, result, target) => {
   const subject = element;
   if (result) {
     subject.innerHTML = '&#183;';
     subject.parentElement.classList.add(result);
     subject.classList.add(result);
+    if (result === 'hit') {
+      subject.parentElement.style = 'null';
+      if (target === player) subject.parentElement.classList.add('hitPly');
+      else if (target === computer) subject.parentElement.classList.add('hitCpu');
+    }
   }
 };
 
-const updateBoard = () => {
-  const columns = cpuBoard.childNodes[0].childNodes;
+const updateBoard = (target) => {
+  const board = (target === player) ? plyBoard : cpuBoard;
+  const columns = board.childNodes[0].childNodes;
   for (let i = 0; i < columns.length; i++) {
     const column = columns[i].childNodes;
     for (let j = 0; j < columns.length; j++) {
-      const result = computer.board[i][j].status;
+      const result = target.board[i][j].status;
       const subject = column[j].childNodes[0];
-
-      styleSquare(subject, result);
+      styleSquare(subject, result, target);
     }
   }
 };
 
-const attack = (x, y) => {
-  game.attack(x, y, game.computer);
-  updateBoard();
-};
+function handler(e) {
+  const column = e.target.parentElement;
+  const columnList = [...column.parentElement.childNodes];
+  const columnChildren = [...column.childNodes];
+  const x = columnList.indexOf(column);
+  const y = columnChildren.indexOf(e.target);
+  attack(x, y, computer);
+}
 
-const addEventListeners = () => {
+const setupEventListeners = (string) => {
   const columns = cpuBoard.childNodes[0].childNodes;
   for (let i = 0; i < columns.length; i++) {
     const column = columns[i].childNodes;
     for (let j = 0; j < columns.length; j++) {
-      column[j].addEventListener('click', () => {
-        attack(i, j);
-      });
+      if (string === 'add') {
+        column[j].addEventListener('click', handler);
+      } else if (string === 'remove') {
+        column[j].removeEventListener('click', handler);
+      }
     }
   }
 };
+
+const attack = (x, y, target) => {
+  console.log(x, y);
+  // game.attack(x, y, target);
+  if (game.attack(x, y, target) === 'Error: Square is used') return;
+  updateBoard(target);
+  setupEventListeners('remove');
+  game.computerAttack();
+  setTimeout(() => {
+    updateBoard(player);
+    setupEventListeners('add');
+  }, 500);
+};
+
+function brightenPlayerColours() {
+  const columns = plyBoard.childNodes[0].childNodes;
+  for (let i = 0; i < columns.length; i++) {
+    const column = columns[i].childNodes;
+    for (let j = 0; j < columns.length; j++) {
+      if (column[j].style.backgroundColor) {
+        column[j].style.backgroundColor = '#b2d5f6';
+      }
+    }
+  }
+}
 
 const startGame = () => {
   buttonHolder.innerHTML = '';
-  addEventListeners();
+  brightenPlayerColours();
+  setupEventListeners('add');
 };
 
 game.shipSetup(player);

@@ -49,8 +49,12 @@ body {
 
 }
 
-.hit {
+.hitCpu {
     font-size: 36px;
+    background-color: rgb(255, 195, 195);
+}
+
+.hitPly {
     background-color: rgb(255, 195, 195);
 }
 
@@ -63,7 +67,11 @@ body {
 }
 
 .miss, .expose, .hit {
-    line-height: 40%;
+line-height: 40%;
+}
+
+.lol {
+    background-color: #b2d5f6;
 }
 
 

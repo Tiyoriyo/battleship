@@ -7,6 +7,9 @@ import Ship from './ship';
 
 /* eslint-disable no-unused-vars */
 const Game = () => {
+  const ply = Player('player');
+  const cpu = Player('computer');
+
   function getShipLength(string) {
     switch (string) {
       case 'carrier': return 4;
@@ -150,8 +153,10 @@ const Game = () => {
 
   function checkWinner(player, computer) {
     if (player.activeShips.length === 0) {
+      console.log('computer wins');
       return 'computer';
     } if (computer.activeShips.length === 0) {
+      console.log('player wins');
       return 'player';
     }
     return null;
@@ -171,10 +176,13 @@ const Game = () => {
         exposeSurroundings(square.ship.tail[0], square.ship.tail[1], player, square.ship);
       }
       exposeSurroundings(x, y, player, square.ship);
-      checkWinner(this.player, this.computer);
+      checkWinner(ply, cpu);
       return true;
     }
-    square.status = 'miss';
+    if (square.status === 'expose') {
+      square.status = 'miss';
+    } else { square.status = 'miss'; }
+
     return false;
   }
 
@@ -200,15 +208,17 @@ const Game = () => {
   }
 
   function computerAttack() {
-    const x = Math.floor(Math.random() * 10);
-    const y = Math.floor(Math.random() * 10);
-    if (this.player.board[x][y].status) { return computerAttack(); }
-    attack(x, y, this.player);
+    const boardLength = getFreeSquares(this.player);
+    while (getFreeSquares(this.player) === boardLength) {
+      const x = Math.floor(Math.random() * 10);
+      const y = Math.floor(Math.random() * 10);
+      if (!this.player.board[x][y].status) attack(x, y, this.player);
+    }
   }
 
   return {
-    player: Player('player'),
-    computer: Player('computer'),
+    player: ply,
+    computer: cpu,
     placeShip,
     attack,
     shipSetup,
