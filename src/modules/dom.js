@@ -8,11 +8,21 @@ const createSquare = () => {
   return square;
 };
 
-// Styles the square if there is a
-const styleShipSquare = (x, y, columnList, player) => {
+// Styles the square if it is a ship
+const styleShipSquare = (x, y, square, player) => {
   if (player.board[x][y].ship) {
     square.classList.add('active');
     square.style.backgroundColor = 'rgb(184, 12, 9)';
+  }
+};
+
+// Styles the square depending on {hit, miss, expose} result
+const styleSquare = (element, result) => {
+  const subject = element;
+  if (result) {
+    subject.parentElement.style = 'null';
+    subject.innerHTML = '&#183;';
+    subject.parentElement.classList.add(result); // Target subject's square
   }
 };
 
@@ -52,4 +62,18 @@ const resetShipSetup = (player, domBoard, game) => {
   renderShips(domBoard, player);
 };
 
-export { buildBoard, renderShips, resetShipSetup };
+const updateBoard = (target, board) => {
+  const columns = board.childNodes[0].childNodes;
+  for (let i = 0; i < columns.length; i++) {
+    const column = columns[i].childNodes;
+    for (let j = 0; j < columns.length; j++) {
+      const subject = column[j].childNodes[0];
+      const result = target.board[i][j].status;
+      styleSquare(subject, result, target);
+    }
+  }
+};
+
+export {
+  buildBoard, renderShips, resetShipSetup, updateBoard,
+};

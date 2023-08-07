@@ -45,18 +45,9 @@ body {
 
 .content {
     position: absolute;
-    font-size: 48px;
     cursor: default;
     overflow: hidden;
 
-}
-
-.hitCpu {
-    background-color: rgb(255, 195, 195);
-}
-
-.hitPly {
-    background-color: rgb(255, 195, 195);
 }
 
 .miss {

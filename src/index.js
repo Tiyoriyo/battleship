@@ -3,10 +3,13 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable import/extensions */
 import Game from './modules/game';
-import { buildBoard, renderShips, resetShipSetup } from './modules/dom';
+import {
+  buildBoard, renderShips, resetShipSetup, updateBoard,
+} from './modules/dom';
 import './style.css';
 import Logo from './images/logo.png';
 
+// Add img source to logo element
 document.querySelector('.logo').src = Logo;
 
 // Game Controller Setup
@@ -22,33 +25,6 @@ const cpuBoard = document.querySelector('.boardSpace2');
 const buttonHolder = document.querySelector('.buttonHolder');
 const plyReset = document.querySelector('#plyReset');
 const gamePlay = document.querySelector('#gamePlay');
-
-const styleSquare = (element, result, target) => {
-  const subject = element;
-  if (result) {
-    subject.innerHTML = '&#183;';
-    subject.parentElement.classList.add(result);
-    subject.classList.add(result);
-    if (result === 'hit') {
-      subject.parentElement.style = 'null';
-      if (target === player) subject.parentElement.classList.add('hitPly');
-      else if (target === computer) subject.parentElement.classList.add('hitCpu');
-    }
-  }
-};
-
-const updateBoard = (target) => {
-  const board = (target === player) ? plyBoard : cpuBoard;
-  const columns = board.childNodes[0].childNodes;
-  for (let i = 0; i < columns.length; i++) {
-    const column = columns[i].childNodes;
-    for (let j = 0; j < columns.length; j++) {
-      const result = target.board[i][j].status;
-      const subject = column[j].childNodes[0];
-      styleSquare(subject, result, target);
-    }
-  }
-};
 
 function handler(e) {
   const column = e.target.parentElement;
@@ -75,12 +51,13 @@ const setupEventListeners = (string) => {
 
 const attack = (x, y, target) => {
   if (game.attack(x, y, target) === 'Error: Square is used') return;
-  updateBoard(target);
+  const board = (target === player) ? plyBoard : cpuBoard;
+  updateBoard(target, board);
   setupEventListeners('remove');
   if (checkWin()) return;
   game.computerAttack();
   setTimeout(() => {
-    updateBoard(player);
+    updateBoard(player, plyBoard, cpuBoard);
     setupEventListeners('add');
     checkWin();
   }, 1);
@@ -117,7 +94,7 @@ const restartGame = () => {
   resetPlayers();
   game.shipSetup(player);
   game.shipSetup(computer);
-  debugShowShips(plyBoard, player);
+  renderShips(plyBoard, player);
   addPreGameButtons();
 };
 
@@ -144,8 +121,8 @@ const addPreGameButtons = () => {
 };
 
 const checkWin = () => {
-  // const result = game.checkWinner(player, computer);
-  const result = 'player';
+  const result = game.checkWinner(player, computer);
+  // const result = 'player';
   if (result) {
     setupEventListeners('remove');
     displayWinner(result);
@@ -163,6 +140,6 @@ cpuBoard.appendChild(buildBoard());
 plyReset.addEventListener('click', () => { resetShipSetup(player, plyBoard, game); });
 gamePlay.addEventListener('click', startGame);
 
-debugShowShips(plyBoard, player);
+renderShips(plyBoard, player);
 
 console.log(plyBoard.childNodes[0].childNodes);
