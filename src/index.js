@@ -3,6 +3,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable import/extensions */
 import Game from './modules/game';
+import { buildBoard, debugShowShips } from './modules/dom';
 import './style.css';
 import Logo from './images/logo.png';
 
@@ -21,40 +22,6 @@ const cpuBoard = document.querySelector('.boardSpace2');
 const buttonHolder = document.querySelector('.buttonHolder');
 const plyReset = document.querySelector('#plyReset');
 const gamePlay = document.querySelector('#gamePlay');
-
-const buildBoard = () => {
-  const board = document.createElement('div');
-  board.classList.add('board');
-
-  for (let i = 0; i < 10; i++) {
-    const column = document.createElement('div');
-    column.classList.add('column');
-    for (let j = 0; j < 10; j++) {
-      const square = document.createElement('div');
-      const content = document.createElement('div');
-      square.classList.add('square', 'noselect');
-      content.classList.add('content');
-
-      square.appendChild(content);
-      column.appendChild(square);
-    }
-    board.appendChild(column);
-  }
-  return board;
-};
-
-const debugShowShips = () => {
-  const columnList = plyBoard.childNodes[0].childNodes;
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      if (player.board[i][j].ship) {
-        const column = columnList[i].childNodes;
-        column[j].classList.add('active');
-        column[j].style.backgroundColor = 'rgb(184, 12, 9)';
-      }
-    }
-  }
-};
 
 const resetShipSetup = () => {
   player.resetBoard();
@@ -152,24 +119,28 @@ const displayWinner = (winner) => {
   restartButton.textContent = 'Restart';
   buttonHolder.append(restartButton);
 
-  restartButton.addEventListener('click', () => {
-    player.resetBoard();
-    player.resetShips();
-    computer.resetBoard();
-    computer.resetShips();
-    plyBoard.innerHTML = '';
-    cpuBoard.innerHTML = '';
-    plyBoard.append(buildBoard());
-    cpuBoard.append(buildBoard());
-    game.shipSetup(player);
-    game.shipSetup(computer);
-    debugShowShips();
-    buttonHolder.innerHTML = '';
-    addPreGameButtons();
-  });
+  restartButton.addEventListener('click', restartGame);
+};
+
+const restartGame = () => {
+  resetPlayers();
+  game.shipSetup(player);
+  game.shipSetup(computer);
+  debugShowShips(plyBoard, player);
+  addPreGameButtons();
+};
+
+const resetPlayers = () => {
+  player.reset();
+  computer.reset();
+  plyBoard.innerHTML = '';
+  cpuBoard.innerHTML = '';
+  plyBoard.append(buildBoard());
+  cpuBoard.append(buildBoard());
 };
 
 const addPreGameButtons = () => {
+  buttonHolder.innerHTML = '';
   const resetBtn = document.createElement('button');
   const playBtn = document.createElement('button');
   resetBtn.id = 'plyReset';
@@ -182,8 +153,8 @@ const addPreGameButtons = () => {
 };
 
 const checkWin = () => {
-  const result = game.checkWinner(player, computer);
-  // const result = 'player';
+  // const result = game.checkWinner(player, computer);
+  const result = 'player';
   if (result) {
     setupEventListeners('remove');
     displayWinner(result);
@@ -201,6 +172,6 @@ cpuBoard.appendChild(buildBoard());
 plyReset.addEventListener('click', resetShipSetup);
 gamePlay.addEventListener('click', startGame);
 
-debugShowShips();
+debugShowShips(plyBoard, player);
 
 console.log(plyBoard.childNodes[0].childNodes);

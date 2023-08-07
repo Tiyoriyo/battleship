@@ -26,6 +26,11 @@ const Player = (name) => {
       'destroyer', 'destroyer', 'destroyer', 'patrol', 'patrol', 'patrol', 'patrol'];
   }
 
+  function reset() {
+    this.resetBoard();
+    this.resetShips();
+  }
+
   return {
     name,
     board: createBoard(),
@@ -35,6 +40,7 @@ const Player = (name) => {
       'destroyer', 'destroyer', 'destroyer', 'patrol', 'patrol', 'patrol', 'patrol'],
     resetBoard,
     resetShips,
+    reset,
   };
 };
 
