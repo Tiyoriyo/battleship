@@ -214,6 +214,11 @@ const Game = () => {
     }
   }
 
+  function reset() {
+    this.player = Player('player');
+    this.computer = Player('computer');
+  }
+
   return {
     player: ply,
     computer: cpu,
@@ -223,6 +228,7 @@ const Game = () => {
     getFreeSquares,
     computerAttack,
     checkWinner,
+    reset,
   };
 };
 

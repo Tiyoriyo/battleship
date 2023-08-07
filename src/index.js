@@ -128,18 +128,6 @@ const attack = (x, y, target) => {
   }, 1);
 };
 
-function brightenPlayerColours() {
-  const columns = plyBoard.childNodes[0].childNodes;
-  for (let i = 0; i < columns.length; i++) {
-    const column = columns[i].childNodes;
-    for (let j = 0; j < columns.length; j++) {
-      if (column[j].style.backgroundColor) {
-        column[j].style.backgroundColor = '#b2d5f6';
-      }
-    }
-  }
-}
-
 const startGame = () => {
   buttonHolder.innerHTML = '';
   // brightenPlayerColours();
@@ -158,10 +146,44 @@ const displayWinner = (winner) => {
   cpuBoard.append(board2);
   plyBoard.childNodes[0].classList.add('blur');
   cpuBoard.childNodes[0].classList.add('blur');
+
+  const restartButton = document.createElement('button');
+  restartButton.id = 'resButton';
+  restartButton.textContent = 'Restart';
+  buttonHolder.append(restartButton);
+
+  restartButton.addEventListener('click', () => {
+    player.resetBoard();
+    player.resetShips();
+    computer.resetBoard();
+    computer.resetShips();
+    plyBoard.innerHTML = '';
+    cpuBoard.innerHTML = '';
+    plyBoard.append(buildBoard());
+    cpuBoard.append(buildBoard());
+    game.shipSetup(player);
+    game.shipSetup(computer);
+    debugShowShips();
+    buttonHolder.innerHTML = '';
+    addPreGameButtons();
+  });
+};
+
+const addPreGameButtons = () => {
+  const resetBtn = document.createElement('button');
+  const playBtn = document.createElement('button');
+  resetBtn.id = 'plyReset';
+  playBtn.id = 'gamePlay';
+  resetBtn.textContent = 'Reset';
+  playBtn.textContent = 'Play';
+  resetBtn.addEventListener('click', resetShipSetup);
+  playBtn.addEventListener('click', startGame);
+  buttonHolder.append(resetBtn, playBtn);
 };
 
 const checkWin = () => {
   const result = game.checkWinner(player, computer);
+  // const result = 'player';
   if (result) {
     setupEventListeners('remove');
     displayWinner(result);

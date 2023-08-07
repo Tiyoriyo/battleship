@@ -132,7 +132,7 @@ line-height: 40%;
     height: 100px ;
 }
 
-#plyReset, #gamePlay {
+button {
     appearance: none;
     width: 75px;
     height: 30px;
@@ -152,6 +152,11 @@ line-height: 40%;
     background-color: rgb(68, 175, 105);
 }
 
+#resButton {
+    background-color:rgb(184, 12, 9);
+}
+
+
 #plyReset:hover {
     background-color: rgb(251, 189, 54);
 }
@@ -160,9 +165,14 @@ line-height: 40%;
     background-color: rgb(101, 185, 130);
 }
 
-#plyReset:active, #gamePlay:active {
+#resButton:hover {
+    background-color:rgb(202, 90, 89);
+}
+
+#plyReset:active, #gamePlay:active, #resButton:active {
     box-shadow: none;
 }
+
 
 
 
