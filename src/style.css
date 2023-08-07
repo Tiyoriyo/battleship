@@ -113,14 +113,20 @@ line-height: 40%;
     gap: 50px;
 }
 
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 150px;
+    gap: 25px;
+}
+
 .logo {
-    width: 400px;
+    width: 300px;
     filter: opacity(0.8);
 }
 
-.lol {
-    color: rgb(84, 222, 132)
-}
 
 
 
