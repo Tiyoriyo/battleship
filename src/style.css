@@ -11,7 +11,7 @@ body {
     align-items: center;
     gap: 50px;
     
-    height: 60vh;
+    height: 100vh;
 }
 
 .noselect {
@@ -118,7 +118,6 @@ line-height: 40%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 150px;
     gap: 25px;
 }
 
@@ -127,6 +126,43 @@ line-height: 40%;
     filter: opacity(0.8);
 }
 
+.buttonHolder {
+    display: flex;
+    gap: 25px;
+    height: 100px ;
+}
+
+#plyReset, #gamePlay {
+    appearance: none;
+    width: 75px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
+    color: white;
+    font-weight: bold;
+}
+
+
+#plyReset {
+    background-color: rgb(255, 178, 15);
+}
+
+#gamePlay {
+    background-color: rgb(68, 175, 105);
+}
+
+#plyReset:hover {
+    background-color: rgb(251, 189, 54);
+}
+
+#gamePlay:hover {
+    background-color: rgb(101, 185, 130);
+}
+
+#plyReset:active, #gamePlay:active {
+    box-shadow: none;
+}
 
 
 
