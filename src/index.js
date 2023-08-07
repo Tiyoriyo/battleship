@@ -50,7 +50,7 @@ const debugShowShips = () => {
       if (player.board[i][j].ship) {
         const column = columnList[i].childNodes;
         column[j].classList.add('active');
-        column[j].style.backgroundColor = '#8ba5be';
+        column[j].style.backgroundColor = 'rgb(184, 12, 9)';
       }
     }
   }
@@ -142,7 +142,7 @@ function brightenPlayerColours() {
 
 const startGame = () => {
   buttonHolder.innerHTML = '';
-  brightenPlayerColours();
+  // brightenPlayerColours();
   setupEventListeners('add');
 };
 
@@ -161,8 +161,7 @@ const displayWinner = (winner) => {
 };
 
 const checkWin = () => {
-  // const result = game.checkWinner(player, computer);
-  const result = 'player';
+  const result = game.checkWinner(player, computer);
   if (result) {
     setupEventListeners('remove');
     displayWinner(result);
