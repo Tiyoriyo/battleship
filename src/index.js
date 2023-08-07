@@ -3,7 +3,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable import/extensions */
 import Game from './modules/game';
-import { buildBoard, debugShowShips } from './modules/dom';
+import { buildBoard, renderShips, resetShipSetup } from './modules/dom';
 import './style.css';
 import Logo from './images/logo.png';
 
@@ -22,15 +22,6 @@ const cpuBoard = document.querySelector('.boardSpace2');
 const buttonHolder = document.querySelector('.buttonHolder');
 const plyReset = document.querySelector('#plyReset');
 const gamePlay = document.querySelector('#gamePlay');
-
-const resetShipSetup = () => {
-  player.resetBoard();
-  player.resetShips();
-  game.shipSetup(player);
-  plyBoard.innerHTML = '';
-  plyBoard.appendChild(buildBoard());
-  debugShowShips();
-};
 
 const styleSquare = (element, result, target) => {
   const subject = element;
@@ -147,7 +138,7 @@ const addPreGameButtons = () => {
   playBtn.id = 'gamePlay';
   resetBtn.textContent = 'Reset';
   playBtn.textContent = 'Play';
-  resetBtn.addEventListener('click', resetShipSetup);
+  resetBtn.addEventListener('click', () => { resetShipSetup(player, plyBoard, game); });
   playBtn.addEventListener('click', startGame);
   buttonHolder.append(resetBtn, playBtn);
 };
@@ -169,7 +160,7 @@ game.shipSetup(computer);
 plyBoard.appendChild(buildBoard());
 cpuBoard.appendChild(buildBoard());
 
-plyReset.addEventListener('click', resetShipSetup);
+plyReset.addEventListener('click', () => { resetShipSetup(player, plyBoard, game); });
 gamePlay.addEventListener('click', startGame);
 
 debugShowShips(plyBoard, player);

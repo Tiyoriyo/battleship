@@ -1,3 +1,4 @@
+// Creates a square
 const createSquare = () => {
   const square = document.createElement('div');
   const content = document.createElement('div');
@@ -7,14 +8,26 @@ const createSquare = () => {
   return square;
 };
 
+// Styles the square if there is a
 const styleShipSquare = (x, y, columnList, player) => {
   if (player.board[x][y].ship) {
-    const column = columnList[x].childNodes;
-    column[y].classList.add('active');
-    column[y].style.backgroundColor = 'rgb(184, 12, 9)';
+    square.classList.add('active');
+    square.style.backgroundColor = 'rgb(184, 12, 9)';
   }
 };
 
+// Render Player's Ships onto gameboard squares
+const renderShips = (domBoard, player) => {
+  const columnList = domBoard.childNodes[0].childNodes;
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      const square = columnList[i].childNodes[j];
+      styleShipSquare(i, j, square, player);
+    }
+  }
+};
+
+// Creates an empty 10x10 board
 const buildBoard = () => {
   const board = document.createElement('div');
   for (let i = 0; i < 10; i++) {
@@ -27,11 +40,16 @@ const buildBoard = () => {
   return board;
 };
 
-const debugShowShips = (domBoard, player) => {
-  const columnList = domBoard.childNodes[0].childNodes;
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) { styleShipSquare(i, j, columnList, player); }
-  }
+// Reset Current Player Ships
+const resetShipSetup = (player, domBoard, game) => {
+  player.reset();
+  game.shipSetup(player);
+
+  const board = domBoard;
+  board.innerHTML = '';
+  board.append(buildBoard());
+
+  renderShips(domBoard, player);
 };
 
-export { buildBoard, debugShowShips };
+export { buildBoard, renderShips, resetShipSetup };
