@@ -118,6 +118,36 @@ const addPreGameButtons = () => {
   buttonHolder.append(resetBtn, playBtn);
 };
 
+const getShips = (type, index) => {
+  const array = [];
+  const tracker = document.querySelector(`.shipTracker${index}`);
+  const trackRows = tracker.children;
+  for (let i = 0; i < trackRows.length; i++) {
+    const trackRow = trackRows[i].children;
+    for (let j = 0; j < trackRow.length; j++) {
+      const ship = trackRow[j];
+      const shipClassList = Array.from(ship.classList);
+      if (shipClassList.indexOf(type) > -1) { array.push(ship); }
+    }
+  }
+  return array;
+};
+
+const playerTracker = {
+  carriers: getShips('carrier', 1),
+  battleships: getShips('battleship', 1),
+  destroyers: getShips('destroyer', 1),
+  submarines: getShips('submarine', 1),
+
+};
+
+const computerTracker = {
+  carriers: getShips('carrier', 1),
+  battleships: getShips('battleship', 2),
+  destroyers: getShips('destroyer', 2),
+  submarines: getShips('submarine', 2),
+};
+
 export {
   buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner,
   addPreGameButtons,
