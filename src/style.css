@@ -22,7 +22,12 @@ body {
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
-  }
+}
+
+.boardsContainer {
+    display: flex;
+    align-items: center;
+}
 
 .board {
     display: grid;
@@ -162,6 +167,41 @@ button {
 
 #plyReset:active, #gamePlay:active, #resButton:active {
     box-shadow: none;
+}
+
+.shipTracker1, .shipTracker2 {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 100px;
+    gap: 5px;
+}
+
+.trackRow {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.ship {
+    background-color: red;
+    height: 5px;
+}
+
+.submarine {
+    width: 5px;
+}
+
+.destroyer {
+    width: 10px;
+}
+
+.battleship {
+    width: 15px;
+}
+
+.carrier {
+    width: 20px;
 }
 
 
