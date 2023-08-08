@@ -116,8 +116,12 @@ const attack = (x, y, target) => {
   setTimeout(() => { computerMove(); }, 500);
 };
 
-game.shipSetup(player);
-game.shipSetup(computer);
+const setupShips = () => {
+  game.shipSetup(player);
+  game.shipSetup(computer);
+};
+
+setupShips();
 
 plyBoard.appendChild(buildBoard());
 cpuBoard.appendChild(buildBoard());
