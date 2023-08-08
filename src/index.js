@@ -134,10 +134,8 @@ const attack = (x, y, target) => {
   }
 
   if (checkWin()) { return; }
-  setTimeout(() => { computerMove(); }, 1);
+  setTimeout(() => { computerMove(); }, 500);
 };
-
-const getActiveShips = (player) => player.getActiveShips;
 
 // Setup player games
 const setupShips = () => {
