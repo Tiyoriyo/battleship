@@ -1,3 +1,7 @@
+const plyBoard = document.querySelector('.boardSpace1');
+const cpuBoard = document.querySelector('.boardSpace2');
+const buttonHolder = document.querySelector('.buttonHolder');
+
 // Creates a square
 const createSquare = () => {
   const square = document.createElement('div');
@@ -77,16 +81,15 @@ const updateBoard = (target, board) => {
 
 // Display Game Winner & Game Loser
 const displayWinner = (winner) => {
-  const plyBoard = document.querySelector('.boardSpace1');
-  const cpuBoard = document.querySelector('.boardSpace2');
-  const buttonHolder = document.querySelector('.buttonHolder');
-
-  const board1 = document.createElement('div'); const board2 = document.createElement('div');
-  board1.classList.add('overlay'); board2.classList.add('overlay');
+  const board1 = document.createElement('div');
+  const board2 = document.createElement('div');
+  board1.classList.add('overlay');
+  board2.classList.add('overlay');
   board1.textContent = (winner === 'player') ? 'Computer Loses' : 'Computer Wins';
   board2.textContent = (winner === 'player') ? 'Player Wins' : 'Player Loses';
 
-  plyBoard.append(board1); cpuBoard.append(board2);
+  plyBoard.append(board1);
+  cpuBoard.append(board2);
   plyBoard.childNodes[0].classList.add('blur');
   cpuBoard.childNodes[0].classList.add('blur');
 
@@ -96,6 +99,17 @@ const displayWinner = (winner) => {
   buttonHolder.append(restartButton);
 };
 
+// Add reset and start game button
+const addPreGameButtons = () => {
+  buttonHolder.innerHTML = '';
+  const resetBtn = document.createElement('button');
+  const playBtn = document.createElement('button');
+  resetBtn.id = 'plyReset'; playBtn.id = 'gamePlay';
+  resetBtn.textContent = 'Reset'; playBtn.textContent = 'Play';
+  buttonHolder.append(resetBtn, playBtn);
+};
+
 export {
   buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner,
+  addPreGameButtons,
 };

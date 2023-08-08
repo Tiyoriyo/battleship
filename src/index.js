@@ -5,6 +5,7 @@
 import Game from './modules/game';
 import {
   buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner,
+  addPreGameButtons,
 } from './modules/dom';
 import './style.css';
 import Logo from './images/logo.png';
@@ -27,6 +28,7 @@ const plyReset = document.querySelector('#plyReset');
 const gamePlay = document.querySelector('#gamePlay');
 
 function handler(e) {
+  if (e.target.className === 'content') return;
   const column = e.target.parentElement;
   const columnList = [...column.parentElement.childNodes];
   const columnChildren = [...column.childNodes];
@@ -49,32 +51,6 @@ const setupEventListeners = (string) => {
   }
 };
 
-const attack = (x, y, target, game) => {
-  if (game.attack(x, y, target) === 'Error: Square is used') return;
-  const board = (target.name === 'player') ? plyBoard : cpuBoard;
-  updateBoard(target, board);
-  if (checkWin()) return;
-  game.computerAttack();
-  setTimeout(() => {
-    updateBoard(player, plyBoard, cpuBoard);
-    setupEventListeners('add');
-    checkWin();
-  }, 1);
-};
-
-const startGame = () => {
-  buttonHolder.innerHTML = '';
-  setupEventListeners('add', cpuBoard);
-};
-
-const restartGame = () => {
-  resetPlayers();
-  game.shipSetup(player);
-  game.shipSetup(computer);
-  renderShips(plyBoard, player);
-  addPreGameButtons();
-};
-
 const resetPlayers = () => {
   player.reset();
   computer.reset();
@@ -84,33 +60,60 @@ const resetPlayers = () => {
   cpuBoard.append(buildBoard());
 };
 
-const addPreGameButtons = () => {
+const startGame = () => {
   buttonHolder.innerHTML = '';
-  const resetBtn = document.createElement('button');
-  const playBtn = document.createElement('button');
-  resetBtn.id = 'plyReset';
-  playBtn.id = 'gamePlay';
-  resetBtn.textContent = 'Reset';
-  playBtn.textContent = 'Play';
+  setupEventListeners('add');
+};
+
+const addGameButtonListeners = () => {
+  const resetBtn = document.querySelector('#plyReset');
+  const playBtn = document.querySelector('#gamePlay');
   resetBtn.addEventListener('click', () => { resetShipSetup(player, plyBoard, game); });
   playBtn.addEventListener('click', startGame);
-  buttonHolder.append(resetBtn, playBtn);
+};
+
+const restartGame = () => {
+  resetPlayers();
+  game.shipSetup(player);
+  game.shipSetup(computer);
+  renderShips(plyBoard, player);
+  addPreGameButtons();
+  addGameButtonListeners();
 };
 
 const addRestartEventListener = () => {
   document.querySelector('#resButton').addEventListener('click', restartGame);
 };
 
+const endGameSetup = (result) => {
+  setupEventListeners('remove');
+  displayWinner(result);
+  addRestartEventListener();
+};
+
 const checkWin = () => {
-  // const result = game.checkWinner(player, computer);
-  const result = 'player';
+  const result = game.checkWinner(player, computer);
+  // const result = 'player';
   if (result) {
-    setupEventListeners('remove');
-    displayWinner(result);
-    addRestartEventListener();
+    endGameSetup(result);
     return true;
-  }
-  return false;
+  } return false;
+};
+
+const computerMove = () => {
+  game.computerAttack();
+  updateBoard(player, plyBoard);
+  setupEventListeners('add');
+  checkWin();
+};
+
+const attack = (x, y, target) => {
+  if (game.attack(x, y, target) === 'Error: Square is used') return;
+  const board = (target.name === 'player') ? plyBoard : cpuBoard;
+  setupEventListeners('remove');
+  updateBoard(target, board);
+  if (checkWin()) { return; }
+  setTimeout(() => { computerMove(); }, 500);
 };
 
 game.shipSetup(player);
