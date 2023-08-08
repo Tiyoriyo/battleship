@@ -1,3 +1,10 @@
+/* eslint-disable no-plusplus */
+import Logo from '../images/logo.png';
+import '../style.css';
+
+// Add img source to logo element
+document.querySelector('.logo').src = Logo;
+
 // DOM elements
 const plyBoard = document.querySelector('.boardSpace1');
 const cpuBoard = document.querySelector('.boardSpace2');
@@ -14,7 +21,8 @@ const createSquare = () => {
 };
 
 // Styles the square if it is a ship
-const styleShipSquare = (x, y, square, player) => {
+const styleShipSquare = (x, y, element, player) => {
+  const square = element;
   if (player.board[x][y].ship) {
     square.classList.add('active');
     square.style.backgroundColor = 'rgb(184, 12, 9)';

@@ -1,17 +1,12 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 /* eslint-disable import/extensions */
 import Game from './modules/game';
 import {
-  buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner,
-  addPreGameButtons,
+  buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner, addPreGameButtons,
 } from './modules/dom';
-import './style.css';
-import Logo from './images/logo.png';
-
-// Add img source to logo element
-document.querySelector('.logo').src = Logo;
 
 // Game Controller Setup
 const game = Game();
@@ -23,6 +18,7 @@ const plyBoard = document.querySelector('.boardSpace1');
 const cpuBoard = document.querySelector('.boardSpace2');
 const buttonHolder = document.querySelector('.buttonHolder');
 
+// Attack Handler
 const handler = (e) => {
   if (e.target.className === 'content') return;
   const column = e.target.parentElement;
@@ -33,6 +29,7 @@ const handler = (e) => {
   attack(x, y, computer, game);
 };
 
+// Event Listener Add & Removal Func
 const setupEventListeners = (string) => {
   const columns = cpuBoard.childNodes[0].childNodes;
   for (let i = 0; i < columns.length; i++) {
@@ -47,6 +44,7 @@ const setupEventListeners = (string) => {
   }
 };
 
+// Reset player ship arrays & generate fresh boards
 const resetPlayers = () => {
   player.reset();
   computer.reset();
@@ -56,11 +54,14 @@ const resetPlayers = () => {
   cpuBoard.append(buildBoard());
 };
 
+// Start the game func
 const startGame = () => {
   buttonHolder.innerHTML = '';
   setupEventListeners('add');
 };
 
+// Event Listeners
+// -- Pregame Buttons
 const addGameButtonListeners = () => {
   const resetBtn = document.querySelector('#plyReset');
   const playBtn = document.querySelector('#gamePlay');
@@ -68,6 +69,13 @@ const addGameButtonListeners = () => {
   playBtn.addEventListener('click', startGame);
 };
 
+// -- Restart Button
+const addRestartEventListener = () => {
+  const resetButton = document.querySelector('#resButton');
+  resetButton.addEventListener('click', restartGame);
+};
+
+// Restarts Game with fresh slate
 const restartGame = () => {
   resetPlayers();
   game.shipSetup(player);
@@ -77,16 +85,14 @@ const restartGame = () => {
   addGameButtonListeners();
 };
 
-const addRestartEventListener = () => {
-  document.querySelector('#resButton').addEventListener('click', restartGame);
-};
-
+// Window Setup for end game
 const endGameSetup = (result) => {
   setupEventListeners('remove');
   displayWinner(result);
   addRestartEventListener();
 };
 
+// Checks if there is a winner & generates end game window setup
 const checkWin = () => {
   const result = game.checkWinner(player, computer);
   // const result = 'player';
@@ -96,6 +102,7 @@ const checkWin = () => {
   } return false;
 };
 
+// Computer Attack Move Func
 const computerMove = () => {
   game.computerAttack();
   updateBoard(player, plyBoard);
@@ -103,6 +110,7 @@ const computerMove = () => {
   checkWin();
 };
 
+// Attack initiator & DOM call
 const attack = (x, y, target) => {
   if (game.attack(x, y, target) === 'Error: Square is used') return;
   const board = (target.name === 'player') ? plyBoard : cpuBoard;
@@ -112,16 +120,19 @@ const attack = (x, y, target) => {
   setTimeout(() => { computerMove(); }, 500);
 };
 
+// Setup player games
 const setupShips = () => {
   game.shipSetup(player);
   game.shipSetup(computer);
 };
 
+// Generate Board Func
 const setupBoards = () => {
   plyBoard.appendChild(buildBoard());
   cpuBoard.appendChild(buildBoard());
 };
 
+// Fresh Game Window Setup
 const setupWindow = () => {
   setupShips();
   setupBoards();
