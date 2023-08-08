@@ -121,10 +121,13 @@ const setupShips = () => {
   game.shipSetup(computer);
 };
 
-setupShips();
+const setupBoards = () => {
+  plyBoard.appendChild(buildBoard());
+  cpuBoard.appendChild(buildBoard());
+};
 
-plyBoard.appendChild(buildBoard());
-cpuBoard.appendChild(buildBoard());
+setupShips();
+setupBoards();
 
 plyReset.addEventListener('click', () => { resetShipSetup(player, plyBoard, game); });
 gamePlay.addEventListener('click', startGame);
