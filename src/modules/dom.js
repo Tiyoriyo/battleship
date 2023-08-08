@@ -137,18 +137,54 @@ const playerTracker = {
   carriers: getShips('carrier', 1),
   battleships: getShips('battleship', 1),
   destroyers: getShips('destroyer', 1),
-  submarines: getShips('submarine', 1),
+  patrols: getShips('patrol', 1),
 
 };
 
 const computerTracker = {
-  carriers: getShips('carrier', 1),
+  carriers: getShips('carrier', 2),
   battleships: getShips('battleship', 2),
   destroyers: getShips('destroyer', 2),
-  submarines: getShips('submarine', 2),
+  patrols: getShips('patrol', 2),
+};
+
+const updateTracker = (shipName, targetName) => {
+  const key = `${shipName}s`;
+  const tracker = (targetName === 'player') ? playerTracker : computerTracker;
+  const element = tracker[key].pop();
+  element.style.backgroundColor = 'rgb(255, 195, 195)';
+};
+
+const resetColours = (tracker) => {
+  const trackRows = tracker.children;
+  for (let i = 0; i < trackRows.length; i++) {
+    const trackRow = trackRows[i].children;
+    for (let j = 0; j < trackRow.length; j++) {
+      const ship = trackRow[j];
+      ship.style.backgroundColor = 'red';
+    }
+  }
+};
+
+const resetArrays = (obj, index) => {
+  Object.keys(obj).forEach((key) => {
+    let string = key;
+    string = string.slice(0, string.length - 1);
+    obj[key] = getShips(string, index);
+  });
+};
+
+const resetTrackers = () => {
+  const tracker1 = document.querySelector('.shipTracker1');
+  const tracker2 = document.querySelector('.shipTracker2');
+
+  resetColours(tracker1);
+  resetColours(tracker2);
+  resetArrays(playerTracker, 1);
+  resetArrays(computerTracker, 2);
 };
 
 export {
   buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner,
-  addPreGameButtons,
+  addPreGameButtons, updateTracker, resetTrackers,
 };

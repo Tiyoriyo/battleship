@@ -210,7 +210,10 @@ const Game = () => {
     while (getFreeSquares(this.player) === boardLength) {
       const x = Math.floor(Math.random() * 10);
       const y = Math.floor(Math.random() * 10);
-      if (!this.player.board[x][y].status) attack(x, y, this.player);
+      if (!this.player.board[x][y].status) {
+        attack(x, y, this.player);
+        return { x, y };
+      }
     }
   }
 

@@ -6,6 +6,7 @@
 import Game from './modules/game';
 import {
   buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner, addPreGameButtons,
+  updateTracker, resetTrackers,
 } from './modules/dom';
 
 // Game Controller Setup
@@ -81,6 +82,7 @@ const restartGame = () => {
   game.shipSetup(player);
   game.shipSetup(computer);
   renderShips(plyBoard, player);
+  resetTrackers();
   addPreGameButtons();
   addGameButtonListeners();
 };
@@ -104,7 +106,15 @@ const checkWin = () => {
 
 // Computer Attack Move Func
 const computerMove = () => {
-  game.computerAttack();
+  const coordinates = game.computerAttack();
+  const { x } = coordinates;
+  const { y } = coordinates;
+  const { ship } = player.board[x][y];
+  if (ship) {
+    if (ship.isSunk()) {
+      updateTracker(player.board[x][y].ship.name, player.name);
+    }
+  }
   updateBoard(player, plyBoard);
   setupEventListeners('add');
   checkWin();
@@ -116,9 +126,18 @@ const attack = (x, y, target) => {
   const board = (target.name === 'player') ? plyBoard : cpuBoard;
   setupEventListeners('remove');
   updateBoard(target, board);
+  const { ship } = target.board[x][y];
+  if (ship) {
+    if (ship.isSunk()) {
+      updateTracker(target.board[x][y].ship.name, target.name);
+    }
+  }
+
   if (checkWin()) { return; }
-  setTimeout(() => { computerMove(); }, 500);
+  setTimeout(() => { computerMove(); }, 1);
 };
+
+const getActiveShips = (player) => player.getActiveShips;
 
 // Setup player games
 const setupShips = () => {
