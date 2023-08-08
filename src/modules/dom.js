@@ -62,6 +62,7 @@ const resetShipSetup = (player, domBoard, game) => {
   renderShips(domBoard, player);
 };
 
+// Updates the board squares upon hit/miss/expose
 const updateBoard = (target, board) => {
   const columns = board.childNodes[0].childNodes;
   for (let i = 0; i < columns.length; i++) {
@@ -74,6 +75,27 @@ const updateBoard = (target, board) => {
   }
 };
 
+// Display Game Winner & Game Loser
+const displayWinner = (winner) => {
+  const plyBoard = document.querySelector('.boardSpace1');
+  const cpuBoard = document.querySelector('.boardSpace2');
+  const buttonHolder = document.querySelector('.buttonHolder');
+
+  const board1 = document.createElement('div'); const board2 = document.createElement('div');
+  board1.classList.add('overlay'); board2.classList.add('overlay');
+  board1.textContent = (winner === 'player') ? 'Computer Loses' : 'Computer Wins';
+  board2.textContent = (winner === 'player') ? 'Player Wins' : 'Player Loses';
+
+  plyBoard.append(board1); cpuBoard.append(board2);
+  plyBoard.childNodes[0].classList.add('blur');
+  cpuBoard.childNodes[0].classList.add('blur');
+
+  const restartButton = document.createElement('button');
+  restartButton.id = 'resButton';
+  restartButton.textContent = 'Restart';
+  buttonHolder.append(restartButton);
+};
+
 export {
-  buildBoard, renderShips, resetShipSetup, updateBoard,
+  buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner,
 };

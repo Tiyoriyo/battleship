@@ -4,7 +4,7 @@
 /* eslint-disable import/extensions */
 import Game from './modules/game';
 import {
-  buildBoard, renderShips, resetShipSetup, updateBoard,
+  buildBoard, renderShips, resetShipSetup, updateBoard, displayWinner,
 } from './modules/dom';
 import './style.css';
 import Logo from './images/logo.png';
@@ -32,7 +32,7 @@ function handler(e) {
   const columnChildren = [...column.childNodes];
   const x = columnList.indexOf(column);
   const y = columnChildren.indexOf(e.target);
-  attack(x, y, computer);
+  attack(x, y, computer, game);
 }
 
 const setupEventListeners = (string) => {
@@ -49,11 +49,10 @@ const setupEventListeners = (string) => {
   }
 };
 
-const attack = (x, y, target) => {
+const attack = (x, y, target, game) => {
   if (game.attack(x, y, target) === 'Error: Square is used') return;
-  const board = (target === player) ? plyBoard : cpuBoard;
+  const board = (target.name === 'player') ? plyBoard : cpuBoard;
   updateBoard(target, board);
-  setupEventListeners('remove');
   if (checkWin()) return;
   game.computerAttack();
   setTimeout(() => {
@@ -65,29 +64,7 @@ const attack = (x, y, target) => {
 
 const startGame = () => {
   buttonHolder.innerHTML = '';
-  // brightenPlayerColours();
-  setupEventListeners('add');
-};
-
-const displayWinner = (winner) => {
-  const board1 = document.createElement('div');
-  const board2 = document.createElement('div');
-  board1.classList.add('overlay');
-  board2.classList.add('overlay');
-  board1.textContent = (winner === 'player') ? 'Computer Loses' : 'Computer Wins';
-  board2.textContent = (winner === 'player') ? 'Player Wins' : 'Player Loses';
-
-  plyBoard.append(board1);
-  cpuBoard.append(board2);
-  plyBoard.childNodes[0].classList.add('blur');
-  cpuBoard.childNodes[0].classList.add('blur');
-
-  const restartButton = document.createElement('button');
-  restartButton.id = 'resButton';
-  restartButton.textContent = 'Restart';
-  buttonHolder.append(restartButton);
-
-  restartButton.addEventListener('click', restartGame);
+  setupEventListeners('add', cpuBoard);
 };
 
 const restartGame = () => {
@@ -120,12 +97,17 @@ const addPreGameButtons = () => {
   buttonHolder.append(resetBtn, playBtn);
 };
 
+const addRestartEventListener = () => {
+  document.querySelector('#resButton').addEventListener('click', restartGame);
+};
+
 const checkWin = () => {
-  const result = game.checkWinner(player, computer);
-  // const result = 'player';
+  // const result = game.checkWinner(player, computer);
+  const result = 'player';
   if (result) {
     setupEventListeners('remove');
     displayWinner(result);
+    addRestartEventListener();
     return true;
   }
   return false;
