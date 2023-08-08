@@ -23,7 +23,7 @@ const plyBoard = document.querySelector('.boardSpace1');
 const cpuBoard = document.querySelector('.boardSpace2');
 const buttonHolder = document.querySelector('.buttonHolder');
 
-function handler(e) {
+const handler = (e) => {
   if (e.target.className === 'content') return;
   const column = e.target.parentElement;
   const columnList = [...column.parentElement.childNodes];
@@ -31,7 +31,7 @@ function handler(e) {
   const x = columnList.indexOf(column);
   const y = columnChildren.indexOf(e.target);
   attack(x, y, computer, game);
-}
+};
 
 const setupEventListeners = (string) => {
   const columns = cpuBoard.childNodes[0].childNodes;
