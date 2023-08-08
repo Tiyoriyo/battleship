@@ -1,3 +1,4 @@
+// DOM elements
 const plyBoard = document.querySelector('.boardSpace1');
 const cpuBoard = document.querySelector('.boardSpace2');
 const buttonHolder = document.querySelector('.buttonHolder');
