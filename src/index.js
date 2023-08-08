@@ -134,7 +134,7 @@ const attack = (x, y, target) => {
   }
 
   if (checkWin()) { return; }
-  setTimeout(() => { computerMove(); }, 500);
+  setTimeout(() => { computerMove(); }, 350);
 };
 
 // Setup player games
