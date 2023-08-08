@@ -18,14 +18,10 @@ const game = Game();
 const { player } = game;
 const { computer } = game;
 
-// Board Spaces
+// DOM Elements
 const plyBoard = document.querySelector('.boardSpace1');
 const cpuBoard = document.querySelector('.boardSpace2');
-
-// Buttons
 const buttonHolder = document.querySelector('.buttonHolder');
-const plyReset = document.querySelector('#plyReset');
-const gamePlay = document.querySelector('#gamePlay');
 
 function handler(e) {
   if (e.target.className === 'content') return;
@@ -126,12 +122,11 @@ const setupBoards = () => {
   cpuBoard.appendChild(buildBoard());
 };
 
-setupShips();
-setupBoards();
+const setupWindow = () => {
+  setupShips();
+  setupBoards();
+  addGameButtonListeners();
+  renderShips(plyBoard, player);
+};
 
-plyReset.addEventListener('click', () => { resetShipSetup(player, plyBoard, game); });
-gamePlay.addEventListener('click', startGame);
-
-renderShips(plyBoard, player);
-
-console.log(plyBoard.childNodes[0].childNodes);
+window.onload = setupWindow();
