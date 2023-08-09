@@ -132,7 +132,6 @@ const attack = (x, y, target) => {
       updateTracker(target.board[x][y].ship.name, target.name);
     }
   }
-
   if (checkWin()) { return; }
   setTimeout(() => { computerMove(); }, 350);
 };
